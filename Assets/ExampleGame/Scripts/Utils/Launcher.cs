@@ -28,6 +28,20 @@ public class Launcher : MonoBehaviour
     {
         _urlParams = ParseUrl();
         
+        ExternalEvents.SmartObjects.SmartObjectsInitializedEvent += () =>
+        {
+            Debug.Log("Init completed");
+            _waitToInitCallbacks?.Invoke();
+            _isBalancyFullyInitialized = true;
+
+            var tests = AbTestsManager.GetAllTests();
+            Debug.Log("Tests Count = " + tests.Count);
+            foreach (var test in tests)
+            {
+                Debug.LogWarning(">> " + test.AbTest.Name + " > " + test.Variant.Name);
+            }
+        };
+        
         Main.Init(new AppConfig
         {
             ApiGameId = GetGameId(),
@@ -41,20 +55,6 @@ public class Launcher : MonoBehaviour
                     Controller.PrintAllErrors();
             }
         });
-
-        ExternalEvents.SmartObjects.SmartObjectsInitializedEvent += () =>
-        {
-            Debug.Log("Init complere ");
-            _waitToInitCallbacks?.Invoke();
-            _isBalancyFullyInitialized = true;
-
-            var tests = AbTestsManager.GetAllTests();
-            Debug.LogError("Tests " + tests.Count);
-            foreach (var test in tests)
-            {
-                Debug.LogWarning(">> " + test.AbTest.Name + " > " + test.Variant.Name);
-            }
-        };
     }
 
     public static void WaitForBalancyToInit(Action callback)
