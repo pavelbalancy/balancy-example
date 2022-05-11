@@ -28,6 +28,7 @@ namespace Balancy.Editor
         
         private int _selectedServer;
         private bool _downloading;
+        private int _versionNumber;
         private float _downloadingProgress;
         private string _downloadingFileName;
         
@@ -91,10 +92,26 @@ namespace Balancy.Editor
                     StartSynchingAddressables();
                 
                 GUILayout.EndHorizontal();
+                
+                EditorGUILayout.Space();
+                EditorGUILayout.Space();
+                RenderVersionLoader();
             }
 
             GUILayout.EndVertical();
             GUI.enabled = true;
+        }
+        
+        private void RenderVersionLoader()
+        {
+            GUILayout.Label("Download a Specific Balance Version");
+            GUILayout.BeginHorizontal();
+            var stringNumber = EditorGUILayout.TextField("Version Number: ", _versionNumber.ToString());
+            int.TryParse(stringNumber, out _versionNumber);
+            
+            if (GUILayout.Button("Download Data"))
+                StartDownloading(_versionNumber);
+            GUILayout.EndHorizontal();
         }
 
         private void StartCodeGeneration()
@@ -147,7 +164,7 @@ namespace Balancy.Editor
             }
         }
 
-        private void StartDownloading()
+        private void StartDownloading(int versionNumber = 0)
         {
             _downloading = true;
             _downloadingProgress = 0;
@@ -169,7 +186,7 @@ namespace Balancy.Editor
             {
                 _downloadingFileName = fileName;
                 _downloadingProgress = progress;
-            });
+            }, versionNumber);
         }
     }
 }

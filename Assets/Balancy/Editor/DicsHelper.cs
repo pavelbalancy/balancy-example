@@ -7,23 +7,22 @@ namespace Balancy.Editor {
 
     public class DicsHelper : EditorWindow {
 
-        private static Loader m_Loader;
-        private static IEnumerator m_Coroutine;
+        private static Loader _loader;
+        private static IEnumerator _coroutine;
 
-        public static void LoadDocs(AppConfig settings, Action<ResponseData> onCompleted, Action<string, float> onProgress) {
+        public static void LoadDocs(AppConfig settings, Action<ResponseData> onCompleted, Action<string, float> onProgress, int version) {
             
-            m_Loader = new Loader(settings, true);
+            _loader = new Loader(settings, true);
 
             var helper = EditorCoroutineHelper.Create();
             
-            m_Coroutine = m_Loader.Load(helper, responseData =>
+            _coroutine = _loader.Load(helper, responseData =>
             {
                 AssetDatabase.Refresh();
-                if (onCompleted != null)
-                    onCompleted(responseData);
-            }, onProgress);
+                onCompleted?.Invoke(responseData);
+            }, onProgress, version);
 
-            helper.LaunchCoroutine(m_Coroutine);
+            helper.LaunchCoroutine(_coroutine);
         }
     }
 }

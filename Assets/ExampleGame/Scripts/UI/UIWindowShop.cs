@@ -55,7 +55,7 @@ public class UIWindowShop : UIWindowBase
 
     private void CreateTabs()
     {
-        var configs = DataEditor.StoreConfigs;
+        var configs = DataEditor.Store.StoreConfigs;
 
         tabsContent.RemoveChildren();
         _tabButtons = new List<UIStoreTabButton>();

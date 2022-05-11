@@ -1,15 +1,9 @@
-﻿using System.Collections.Generic;
-using Balancy.Models;
+﻿using Balancy.Models;
 
 namespace Balancy
 {
     public partial class DataEditor
     {
-        public static Models.SmartObjects.SmartConfig SmartConfig => DataManager.SmartConfig;
-        public static List<Models.SmartObjects.GameOffer> GameOffers => DataManager.GameOffers;
-        public static List<Models.SmartObjects.GameEvent> GameEvents => DataManager.GameEvents;
-        public static List<Models.SmartObjects.Analytics.ABTest> ABTests  => DataManager.ABTests;
-
         static partial void PrepareGeneratedData();
 
         public static void Init()

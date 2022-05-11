@@ -22,7 +22,7 @@ namespace Balancy.Data
 			get => level;
 			set {
 				if (UpdateValue(ref level, value))
-					_cache.UpdateStorageValue(_path + "Level", level);
+					_cache?.UpdateStorageValue(_path + "Level", level);
 			}
 		}
 
@@ -32,7 +32,7 @@ namespace Balancy.Data
 			get => gems;
 			set {
 				if (UpdateValue(ref gems, value))
-					_cache.UpdateStorageValue(_path + "Gems", gems);
+					_cache?.UpdateStorageValue(_path + "Gems", gems);
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace Balancy.Data
 			get => gold;
 			set {
 				if (UpdateValue(ref gold, value))
-					_cache.UpdateStorageValue(_path + "Gold", gold);
+					_cache?.UpdateStorageValue(_path + "Gold", gold);
 			}
 		}
 

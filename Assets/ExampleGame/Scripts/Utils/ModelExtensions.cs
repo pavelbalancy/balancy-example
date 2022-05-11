@@ -21,9 +21,9 @@ public static class ModelExtensions
     
     public static ItemType GetItemType(this Item item)
     {
-        if (item == DataEditor.GameConfig.GoldItem)
+        if (item == DataEditor.Game.GameConfig.GoldItem)
             return ItemType.Gold;
-        if (item == DataEditor.GameConfig.GemsItem)
+        if (item == DataEditor.Game.GameConfig.GemsItem)
             return ItemType.Gems;
 
         return ItemType.Other;
