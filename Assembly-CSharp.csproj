@@ -60,12 +60,12 @@
      <Compile Include="Assets\ExampleGame\Scripts\UI\UIItemStatus.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\Utils\Launcher.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\UI\UIStoreTabButton.cs" />
-     <Compile Include="Assets\ExampleGame\Scripts\UI\OffersManager.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\UI\GUIManager.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\UI\UIShopItem.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\Utils\TimeFormatter.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\Utils\CloseCurrentWindow.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\UI\UIStoreSlotType.cs" />
+     <Compile Include="Assets\ExampleGame\Scripts\Utils\MySmartObjectsEvents.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\UI\UIWindowOffer.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\Utils\TransformExtension.cs" />
      <Compile Include="Assets\ExampleGame\Scripts\Utils\RemoteImage.cs" />
@@ -328,6 +328,12 @@
  </Reference>
  <Reference Include="BalancyLib">
  <HintPath>/Volumes/Data/Balancy/Projects/balancy-example/Assets/Balancy/Plugins/BalancyLib.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+ <HintPath>/Applications/Unity/Hub/Editor/2020.3.30f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.iOS.Extensions.Common">
+ <HintPath>/Applications/Unity/Hub/Editor/2020.3.30f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>/Applications/Unity/Hub/Editor/2020.3.30f1/Unity.app/Contents/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

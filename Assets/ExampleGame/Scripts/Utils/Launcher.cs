@@ -27,8 +27,8 @@ public class Launcher : MonoBehaviour
     private void Start()
     {
         _urlParams = ParseUrl();
-        
-        ExternalEvents.SmartObjects.SmartObjectsInitializedEvent += () =>
+        ExternalEvents.RegisterSmartObjectEvents(new MySmartObjectsEvents());
+        MySmartObjectsEvents.OnSmartObjectsInitializedEvent += () =>
         {
             Debug.Log("Init completed");
             _waitToInitCallbacks?.Invoke();

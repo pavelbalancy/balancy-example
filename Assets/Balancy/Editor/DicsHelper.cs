@@ -10,7 +10,7 @@ namespace Balancy.Editor {
         private static Loader _loader;
         private static IEnumerator _coroutine;
 
-        public static void LoadDocs(AppConfig settings, Action<ResponseData> onCompleted, Action<string, float> onProgress, int version) {
+        public static void LoadDocs(AppConfig settings, Action<LoaderResponseData> onCompleted, Action<string, float> onProgress, int version = 0) {
             
             _loader = new Loader(settings, true);
 

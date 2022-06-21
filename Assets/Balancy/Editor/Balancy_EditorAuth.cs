@@ -235,10 +235,10 @@ namespace Balancy.Editor
                 {
                     _gamesInfo = JsonConvert.DeserializeObject<GamesInfo>(data);
                     _gamesInfo.Init(_userInfo);
-                    _loadingGames = false;
                 }
                 else
                     LogOut();
+                _loadingGames = false;
             });
         }
 

@@ -13,14 +13,14 @@ public class UIOffersView : MonoBehaviour
     private void Awake()
     {
         Launcher.WaitForBalancyToInit(RefreshOffers);
-        ExternalEvents.SmartObjects.NewOfferActivatedEvent += OnNewOfferActivated;
-        ExternalEvents.SmartObjects.OfferDeactivatedEvent += OnOfferDeactivated;
+        MySmartObjectsEvents.OnNewOfferActivatedEvent += OnNewOfferActivated;
+        MySmartObjectsEvents.OnOfferDeactivatedEvent += OnOfferDeactivated;
     }
 
     private void OnDestroy()
     {
-        ExternalEvents.SmartObjects.NewOfferActivatedEvent -= OnNewOfferActivated;
-        ExternalEvents.SmartObjects.OfferDeactivatedEvent -= OnOfferDeactivated;
+        MySmartObjectsEvents.OnNewOfferActivatedEvent -= OnNewOfferActivated;
+        MySmartObjectsEvents.OnOfferDeactivatedEvent -= OnOfferDeactivated;
     }
     
     private void OnNewOfferActivated(OfferInfo offerInfo)
