@@ -1,5 +1,4 @@
-﻿using System;
-using Balancy.Data;
+﻿using Balancy.Data;
 using Balancy.Data.SmartObjects;
 using Balancy.Models.SmartObjects;
 using Balancy.SmartObjects;
@@ -8,12 +7,9 @@ using UnityEngine;
 
 namespace Balancy
 {
-    public class MySmartObjectsEvents : ISmartObjectsEvents
+    //TOTO make your own version of this file, because the original file will be overwritten after Balancy update
+    public class SmartObjectsEventsExample : ISmartObjectsEvents
     {
-        public static Action<OfferInfo> OnNewOfferActivatedEvent;
-        public static Action<OfferInfo, bool> OnOfferDeactivatedEvent;
-        public static Action OnSmartObjectsInitializedEvent;
-        
         public void OnSystemProfileConflictAppeared()
         {
             Debug.Log("=> OnSystemProfileConflictAppeared");
@@ -40,14 +36,11 @@ namespace Balancy
         public void OnNewOfferActivated(OfferInfo offerInfo)
         {
             Debug.Log("=> OnNewOfferActivated: " + offerInfo?.GameOffer?.Name + " ; Price = " + offerInfo?.PriceUSD + " ; Discount = " + offerInfo?.Discount);
-            GlobalEvents.UI.InvokeOpenWindow(WinType.SpecialOffer, offerInfo);
-            OnNewOfferActivatedEvent?.Invoke(offerInfo);
         }
 
         public void OnOfferDeactivated(OfferInfo offerInfo, bool wasPurchased)
         {
             Debug.Log("=> OnOfferDeactivated: " + offerInfo?.GameOffer?.Name + " ; wasPurchased = " + wasPurchased);
-            OnOfferDeactivatedEvent?.Invoke(offerInfo, wasPurchased);
         }
 
         public void OnNewEventActivated(EventInfo eventInfo)
@@ -83,9 +76,8 @@ namespace Balancy
         public void OnSmartObjectsInitialized()
         {
             Debug.Log("=> OnSmartObjectsInitialized:  You can now make purchase, request all GameEvents, GameOffers, A/B Tests, etc...");
-            OnSmartObjectsInitializedEvent?.Invoke();
         }
-        
+
         public void OnAbTestStarted(AbTestsManager.TestData abTestInfo)
         {
             Debug.Log("=> OnAbTestStarted: " + abTestInfo?.AbTest?.Name + " ; Variant = " + abTestInfo?.Variant?.Name);

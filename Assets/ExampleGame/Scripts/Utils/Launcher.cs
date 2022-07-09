@@ -27,7 +27,8 @@ public class Launcher : MonoBehaviour
     private void Start()
     {
         _urlParams = ParseUrl();
-        ExternalEvents.RegisterSmartObjectEvents(new MySmartObjectsEvents());
+        ExternalEvents.RegisterSmartObjectsListener(new MySmartObjectsEvents());
+        
         MySmartObjectsEvents.OnSmartObjectsInitializedEvent += () =>
         {
             Debug.Log("Init completed");
@@ -53,6 +54,8 @@ public class Launcher : MonoBehaviour
                 Debug.Log("Balancy Init  " + response.Success);
                 if (!response.Success)
                     Controller.PrintAllErrors();
+                
+                Debug.LogError("USER " + Auth.GetUserId());
             }
         });
     }
