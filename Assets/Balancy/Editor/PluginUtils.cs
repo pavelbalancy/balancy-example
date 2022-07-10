@@ -27,7 +27,7 @@ namespace Balancy.Editor
 #if LOCAL_PLUGINS_TEST
         public const string PLUGINS_ADDRESS_REMOTE = "/balancy_plugins.json";
 #else
-        public const string PLUGINS_ADDRESS_REMOTE = "https://dictionaries-unnynet.fra1.cdn.digitaloceanspaces.com/config/balancy_plugins.json";
+        public const string PLUGINS_ADDRESS_REMOTE = "https://data.un-cdn.unnyplay.com/config/balancy_plugins.json";
 #endif
 
         private const string CODE_GENERATION_PLUGIN = "Balancy";

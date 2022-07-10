@@ -13,6 +13,7 @@ namespace Balancy
         public void OnSystemProfileConflictAppeared()
         {
             Debug.Log("=> OnSystemProfileConflictAppeared");
+            // System Profile is created and handled automatically. It contains Scripts progress, active Events and Offers, information about A/B testing, Payments, Segmentations, etc...
             // UnnyProfileManager.SolveConflict(ConflictsManager.VersionType.Local);
             UnnyProfileManager.SolveConflict(ConflictsManager.VersionType.Cloud);
         }
