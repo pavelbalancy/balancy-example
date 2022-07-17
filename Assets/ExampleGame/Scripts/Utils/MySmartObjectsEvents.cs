@@ -74,10 +74,10 @@ namespace Balancy
         {
             Debug.Log("=> OnOfferFailedToPurchase: " + storeItem?.Name + " ; Error = " + error);
         }
-
-        public void OnSegmentUpdated(Segment segment)
+        
+        public void OnSegmentUpdated(SegmentInfo segmentInfo)
         {
-            Debug.Log("=> OnSegmentUpdated: " + segment?.Name + " ; Option = " + SegmentsManager.GetSegmentSystemOption(segment));
+            Debug.Log("=> OnSegmentUpdated: " + segmentInfo?.Segment?.Name + " ; IsIn = " + segmentInfo?.IsIn);
         }
 
         public void OnSmartObjectsInitialized()

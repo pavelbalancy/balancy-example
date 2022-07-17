@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Balancy;
 using Balancy.API.Payments;
 using Balancy.Data;
+using Balancy.Models.SmartObjects.Conditions;
 using Balancy.Models.Store;
 using Balancy.SmartObjects;
 using UnityEngine;
@@ -61,7 +62,7 @@ public class UIWindowShop : UIWindowBase
         _tabButtons = new List<UIStoreTabButton>();
         foreach (var config in configs)
         {
-            if (!config.Condition?.CanPass() ?? false)
+            if ((config.Condition?.CanPass() ?? PassType.True) == PassType.False)
                 continue;
 
             var pages = config.Pages;
@@ -97,7 +98,7 @@ public class UIWindowShop : UIWindowBase
         
         foreach (var storeItem in storePage.Slots)
         {
-            if (!storeItem.Condition?.CanPass() ?? false)
+            if ((storeItem.Condition?.CanPass() ?? PassType.True) == PassType.False)
                 continue;
             
             var newItem = Instantiate(storeItemPrefab, content);
