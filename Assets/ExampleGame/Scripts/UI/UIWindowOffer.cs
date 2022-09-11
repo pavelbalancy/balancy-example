@@ -59,7 +59,7 @@ public class UIWindowOffer : UIWindowBase
         offerImage.LoadObject(gameOffer.Sprite);
         
         offerDiscount.SetText($"-{offerInfo.Discount}%");
-        offerPrice.SetText($"US ${offerInfo.PriceUSD}");
+        offerPrice.SetText($"US ${offerInfo.PriceBalancy}");
 
         _offerInfo = offerInfo;
     }
