@@ -17,6 +17,13 @@ namespace Balancy.Editor
             window.titleContent.text = "Balancy Config";
             window.titleContent.image = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Balancy/Editor/BalancyLogo.png");
         }
+        
+        [MenuItem("Tools/Balancy/Open PersistentDataPath ", false, -103000)]
+        public static void OpenPersistentDataPath()
+        {
+            var path = Application.persistentDataPath;
+            EditorUtility.RevealInFinder(path);
+        }
 
         private void Awake()
         {
