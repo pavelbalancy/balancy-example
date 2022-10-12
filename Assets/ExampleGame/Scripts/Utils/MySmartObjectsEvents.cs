@@ -95,5 +95,10 @@ namespace Balancy
         {
             Debug.Log("=> OnAbTestEnded: " + abTestInfo?.AbTest?.Name);
         }
+
+        public void OnStoreResourcesMultiplierChanged(float multiplier)
+        {
+            Debug.Log("=> OnStoreResourcesMultiplierChanged: " + multiplier);
+        }
     }
 }
