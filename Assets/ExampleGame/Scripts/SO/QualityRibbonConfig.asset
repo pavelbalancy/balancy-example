@@ -23,3 +23,8 @@ MonoBehaviour:
     BackColor: {r: 0.019607844, g: 0.21176471, b: 0.64705884, a: 1}
     RibbonImage: {fileID: 21300000, guid: dc17ed6a4b8694bb887e192d49ccc6d4, type: 3}
     BackImage: {fileID: 21300000, guid: 4a87d2863962d4f2bacd1abeb517ffd7, type: 3}
+  - Type: 3
+    DisplayText: NEW
+    BackColor: {r: 0.028390888, g: 0.5471698, b: 0.084424116, a: 1}
+    RibbonImage: {fileID: 21300000, guid: dc17ed6a4b8694bb887e192d49ccc6d4, type: 3}
+    BackImage: {fileID: 21300000, guid: 4a87d2863962d4f2bacd1abeb517ffd7, type: 3}

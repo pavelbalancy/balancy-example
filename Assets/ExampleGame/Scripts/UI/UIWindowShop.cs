@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using Balancy;
 using Balancy.API.Payments;
 using Balancy.Data;
-using Balancy.Models.SmartObjects.Conditions;
+using Balancy.Models.LiveOps.Store;
 using Balancy.Models.Store;
-using Balancy.SmartObjects;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,27 +54,20 @@ public class UIWindowShop : UIWindowBase
 
     private void CreateTabs()
     {
-        var configs = DataEditor.Store.StoreConfigs;
-
         tabsContent.RemoveChildren();
         _tabButtons = new List<UIStoreTabButton>();
-        foreach (var config in configs)
+        var storeConfig = Balancy.LiveOps.Store.DefaultStore;
+        var pages = storeConfig.ActivePages;
+        foreach (var page in pages)
         {
-            if ((config.Condition?.CanPass() ?? PassType.True) == PassType.False)
-                continue;
-
-            var pages = config.Pages;
-            foreach (var page in pages)
-            {
-                var newButton = Instantiate(storeTabPrefab, tabsContent);
-                var storeTabButton = newButton.GetComponent<UIStoreTabButton>();
-                storeTabButton.Init(page, TabWasSelected);
-                _tabButtons.Add(storeTabButton);
-            }
-
-            TabWasSelected(pages[0]);
-            break;
+            var newButton = Instantiate(storeTabPrefab, tabsContent);
+            var storeTabButton = newButton.GetComponent<UIStoreTabButton>();
+            storeTabButton.Init(page, TabWasSelected);
+            _tabButtons.Add(storeTabButton);
         }
+
+        if (pages.Count > 0)
+            TabWasSelected(pages[0]);
     }
 
     private void ProfileLoaded(DefaultProfile profile)
@@ -84,30 +75,27 @@ public class UIWindowShop : UIWindowBase
         _profile = profile;
     }
 
-    private void TabWasSelected(StorePage storePage)
+    private void TabWasSelected(Page storePage)
     {
         foreach (var button in _tabButtons)
-            button.SetLocked(button.Equals(storePage));
+            button.SetLocked(button.EqualsToPage(storePage));
 
         RefreshContent(storePage);
     }
 
-    private void RefreshContent(StorePage storePage)
+    private void RefreshContent(Page storePage)
     {
         content.RemoveChildren();
         
-        foreach (var storeItem in storePage.Slots)
+        foreach (var storeSlot in storePage.ActiveSlots)
         {
-            if ((storeItem.Condition?.CanPass() ?? PassType.True) == PassType.False)
-                continue;
-            
             var newItem = Instantiate(storeItemPrefab, content);
             var storeItemView = newItem.GetComponent<UIShopItem>();
-            storeItemView.Init(storeItem, OnTryToPurchase);
+            storeItemView.Init(storeSlot, OnTryToPurchase);
         }
     }
 
-    private void OnTryToPurchase(UIShopItem item, StoreSlot storeSlot)
+    private void OnTryToPurchase(UIShopItem item, Slot storeSlot)
     {
         if (_profile == null)
             return;
@@ -115,7 +103,7 @@ public class UIWindowShop : UIWindowBase
         if (storeSlot.StoreItem.TryToPurchase(_profile))
         {
             if (storeSlot.StoreItem.IsInApp())
-                Manager.ItemWasPurchased(storeSlot.StoreItem, new PaymentInfo
+                Balancy.LiveOps.Store.ItemWasPurchased(storeSlot.StoreItem, new PaymentInfo
                 {
                     Currency = "USD",
                     Price = storeSlot.StoreItem.Price.Product.Price,
@@ -123,7 +111,7 @@ public class UIWindowShop : UIWindowBase
                 });
             else
             {
-                Manager.ItemWasPurchasedSoft(storeSlot.StoreItem, storeSlot.StoreItem.Price);
+                Balancy.LiveOps.Store.ItemWasPurchased(storeSlot.StoreItem, storeSlot.StoreItem.Price);
             }
             //TODO play some animation
         }

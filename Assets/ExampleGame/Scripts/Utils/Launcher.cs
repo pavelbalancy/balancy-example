@@ -28,6 +28,7 @@ public class Launcher : MonoBehaviour
     {
         _urlParams = ParseUrl();
         ExternalEvents.RegisterSmartObjectsListener(new MySmartObjectsEvents());
+        ExternalEvents.RegisterLiveOpsListener(new MyStoreEvents());
         
         MySmartObjectsEvents.OnSmartObjectsInitializedEvent += () =>
         {
@@ -35,7 +36,7 @@ public class Launcher : MonoBehaviour
             _waitToInitCallbacks?.Invoke();
             _isBalancyFullyInitialized = true;
 
-            var tests = AbTestsManager.GetAllTests();
+            var tests = Balancy.LiveOps.ABTests.GetAllTests();
             Debug.Log("Tests Count = " + tests.Count);
             foreach (var test in tests)
             {

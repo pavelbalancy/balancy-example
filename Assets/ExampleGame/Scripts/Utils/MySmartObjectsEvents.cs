@@ -3,7 +3,6 @@ using Balancy.Data;
 using Balancy.Data.SmartObjects;
 using Balancy.Models.SmartObjects;
 using Balancy.SmartObjects;
-using Balancy.SmartObjects.Analytics;
 using UnityEngine;
 
 namespace Balancy
@@ -17,8 +16,8 @@ namespace Balancy
         public void OnSystemProfileConflictAppeared()
         {
             Debug.Log("=> OnSystemProfileConflictAppeared");
-            // UnnyProfileManager.SolveConflict(ConflictsManager.VersionType.Local);
-            UnnyProfileManager.SolveConflict(ConflictsManager.VersionType.Cloud);
+            // Balancy.LiveOps.Profile.SolveConflict(ConflictsManager.VersionType.Local);
+            Balancy.LiveOps.Profile.SolveConflict(ConflictsManager.VersionType.Cloud);
         }
 
         public void OnSmartObjectConflictAppeared(ParentBaseData parentBaseData)
@@ -86,19 +85,14 @@ namespace Balancy
             OnSmartObjectsInitializedEvent?.Invoke();
         }
         
-        public void OnAbTestStarted(AbTestsManager.TestData abTestInfo)
+        public void OnAbTestStarted(LiveOps.ABTests.TestData abTestInfo)
         {
             Debug.Log("=> OnAbTestStarted: " + abTestInfo?.AbTest?.Name + " ; Variant = " + abTestInfo?.Variant?.Name);
         }
 
-        public void OnAbTestEnded(AbTestsManager.TestData abTestInfo)
+        public void OnAbTestEnded(LiveOps.ABTests.TestData abTestInfo)
         {
             Debug.Log("=> OnAbTestEnded: " + abTestInfo?.AbTest?.Name);
-        }
-
-        public void OnStoreResourcesMultiplierChanged(float multiplier)
-        {
-            Debug.Log("=> OnStoreResourcesMultiplierChanged: " + multiplier);
         }
     }
 }

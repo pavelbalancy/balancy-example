@@ -1,4 +1,5 @@
 using System;
+using Balancy.Models.LiveOps.Store;
 using Balancy.Models.Store;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class QualityRibbonConfig : ScriptableObject
     [Serializable]
     public class QualityConfig
     {
-        public StoreSlotType Type;
+        public SlotType Type;
         public string DisplayText;
         public Color BackColor;
         public Sprite RibbonImage;
@@ -18,7 +19,7 @@ public class QualityRibbonConfig : ScriptableObject
     [SerializeField]
     private QualityConfig[] configs;
 
-    public QualityConfig GetQualityConfig(StoreSlotType type)
+    public QualityConfig GetQualityConfig(SlotType type)
     {
         foreach (var config in configs)
         {

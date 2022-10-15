@@ -2,7 +2,6 @@
 using Balancy.Data.SmartObjects;
 using Balancy.Models.SmartObjects;
 using Balancy.SmartObjects;
-using Balancy.SmartObjects.Analytics;
 using UnityEngine;
 
 namespace Balancy
@@ -14,8 +13,8 @@ namespace Balancy
         {
             Debug.Log("=> OnSystemProfileConflictAppeared");
             // System Profile is created and handled automatically. It contains Scripts progress, active Events and Offers, information about A/B testing, Payments, Segmentations, etc...
-            // UnnyProfileManager.SolveConflict(ConflictsManager.VersionType.Local);
-            UnnyProfileManager.SolveConflict(ConflictsManager.VersionType.Cloud);
+            // Balancy.LiveOps.Profile.SolveConflict(ConflictsManager.VersionType.Local);
+            Balancy.LiveOps.Profile.SolveConflict(ConflictsManager.VersionType.Cloud);
         }
 
         public void OnSmartObjectConflictAppeared(ParentBaseData parentBaseData)
@@ -79,19 +78,14 @@ namespace Balancy
             Debug.Log("=> OnSmartObjectsInitialized:  You can now make purchase, request all GameEvents, GameOffers, A/B Tests, etc...");
         }
 
-        public void OnAbTestStarted(AbTestsManager.TestData abTestInfo)
+        public void OnAbTestStarted(LiveOps.ABTests.TestData abTestInfo)
         {
             Debug.Log("=> OnAbTestStarted: " + abTestInfo?.AbTest?.Name + " ; Variant = " + abTestInfo?.Variant?.Name);
         }
 
-        public void OnAbTestEnded(AbTestsManager.TestData abTestInfo)
+        public void OnAbTestEnded(LiveOps.ABTests.TestData abTestInfo)
         {
             Debug.Log("=> OnAbTestEnded: " + abTestInfo?.AbTest?.Name);
-        }
-
-        public void OnStoreResourcesMultiplierChanged(float multiplier)
-        {
-            Debug.Log("=> OnStoreResourcesMultiplierChanged: " + multiplier);
         }
     }
 }

@@ -1,4 +1,4 @@
-using Balancy.Models.Store;
+using Balancy.Models.LiveOps.Store;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +20,7 @@ public class UIStoreSlotType : MonoBehaviour
     [SerializeField]
     private QualityRibbonConfig config;
 
-    public void SetType(StoreSlotType type)
+    public void SetType(SlotType type)
     {
         var qConfig = config.GetQualityConfig(type);
         if (qConfig == null)

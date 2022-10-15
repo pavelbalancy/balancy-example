@@ -1,5 +1,5 @@
 using System;
-using Balancy.Models.Store;
+using Balancy.Models.LiveOps.Store;
 using TMPro;
 using UnityEngine;
 
@@ -17,18 +17,18 @@ public class UIStoreTabButton : MonoBehaviour
     [SerializeField]
     private Color colorNotSelected;
 
-    private StorePage _storePage;
+    private Page _storePage;
     
-    public void Init(StorePage storePage, Action<StorePage> onSelected)
+    public void Init(Page storePage, Action<Page> onSelected)
     {
         _storePage = storePage;
         button.onClick.RemoveAllListeners();
 
-        title.SetText(storePage.DisplayName);
+        title.SetText(storePage.Name.Value);
         button.onClick.AddListener(() => onSelected?.Invoke(_storePage));
     }
 
-    public bool Equals(StorePage storePage)
+    public bool EqualsToPage(Page storePage)
     {
         return _storePage == storePage;
     }

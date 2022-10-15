@@ -1,4 +1,5 @@
 using System;
+using Balancy.Models.LiveOps.Store;
 using Balancy.Models.SmartObjects;
 using Balancy.Models.Store;
 using TMPro;
@@ -25,10 +26,10 @@ public class UIShopItem : MonoBehaviour
     [SerializeField]
     private PurchaseTypeConfig config;
 
-    private Action<UIShopItem, StoreSlot> _onPurchase;
-    private StoreSlot _storeSlot;
+    private Action<UIShopItem, Slot> _onPurchase;
+    private Slot _storeSlot;
     
-    public void Init(StoreSlot storeSlot, Action<UIShopItem, StoreSlot> onPurchase)
+    public void Init(Slot storeSlot, Action<UIShopItem, Slot> onPurchase)
     {
         var slotView = GetComponent<UIStoreSlotType>();
         slotView?.SetType(storeSlot.Type);
@@ -43,7 +44,7 @@ public class UIShopItem : MonoBehaviour
         _storeSlot = storeSlot;
     }
 
-    private void ApplyPurchaseConfig(StoreSlot storeSlot)
+    private void ApplyPurchaseConfig(Slot storeSlot)
     {
         var purchaseConfig = config.GetPurchaseConfig(storeSlot.StoreItem.GetRewardType());
         if (purchaseConfig != null)
