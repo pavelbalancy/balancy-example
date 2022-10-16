@@ -23,8 +23,6 @@ public class UIWindowShop : UIWindowBase
     [SerializeField]
     private Button homeButton;
     
-    private StorePage _currentPage;
-
     private List<UIStoreTabButton> _tabButtons;
     private DefaultProfile _profile;
 
