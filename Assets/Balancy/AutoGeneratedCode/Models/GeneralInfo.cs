@@ -9,12 +9,22 @@ namespace Balancy.Data
 	{
 
 		[JsonProperty]
+		private int gold;
+		[JsonProperty]
 		private int level;
 		[JsonProperty]
 		private int gems;
-		[JsonProperty]
-		private int gold;
 
+
+		[JsonIgnore]
+		public int Gold
+		{
+			get => gold;
+			set {
+				if (UpdateValue(ref gold, value))
+					_cache?.UpdateStorageValue(_path + "Gold", gold);
+			}
+		}
 
 		[JsonIgnore]
 		public int Level
@@ -36,16 +46,6 @@ namespace Balancy.Data
 			}
 		}
 
-		[JsonIgnore]
-		public int Gold
-		{
-			get => gold;
-			set {
-				if (UpdateValue(ref gold, value))
-					_cache?.UpdateStorageValue(_path + "Gold", gold);
-			}
-		}
-
 		protected override void InitParams() {
 			base.InitParams();
 
@@ -61,9 +61,9 @@ namespace Balancy.Data
 		protected override void AddAllParamsToCache(string path, IInternalStorageCache cache)
 		{
 			base.AddAllParamsToCache(path, cache);
+			AddCachedItem(path + "Gold", gold, newValue => Gold = Utils.ToInt(newValue), cache);
 			AddCachedItem(path + "Level", level, newValue => Level = Utils.ToInt(newValue), cache);
 			AddCachedItem(path + "Gems", gems, newValue => Gems = Utils.ToInt(newValue), cache);
-			AddCachedItem(path + "Gold", gold, newValue => Gold = Utils.ToInt(newValue), cache);
 		}
 	}
 #pragma warning restore 649

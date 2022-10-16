@@ -37,13 +37,13 @@ namespace Balancy
 
 		public static class Game
 		{
-			public static List<Models.Game.GameItem> GameItems { get; private set; }
 			public static Models.Game.GameConfig GameConfig { get; private set; }
+			public static List<Models.Game.GameItem> GameItems { get; private set; }
 
 			public static void Init()
 			{
-				GameItems = DataManager.ParseList<Models.Game.GameItem>();
 				GameConfig = DataManager.ParseSingleton<Models.Game.GameConfig>();
+				GameItems = DataManager.ParseList<Models.Game.GameItem>();
 			}
 		}
 		public static class Store
@@ -59,23 +59,24 @@ namespace Balancy
 		}
 
 		static partial void PrepareGeneratedData() {
-			ParseDictionary<Models.SmartObjects.Conditions.And>();
 			ParseDictionary<Models.SmartObjects.Conditions.Or>();
-			ParseDictionary<Models.SmartObjects.Conditions.DatesRage>();
+			ParseDictionary<Models.SmartObjects.Conditions.And>();
 			ParseDictionary<Models.SmartObjects.Conditions.DayOfTheWeek>();
 			ParseDictionary<Models.SmartObjects.Conditions.TimeOfTheDay>();
+			ParseDictionary<Models.SmartObjects.Conditions.DatesRage>();
 			ParseDictionary<Models.SmartObjects.Conditions.ActiveEvent>();
+			ParseDictionary<Models.SmartObjects.Conditions.EngineVersion>();
 			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldInRange>();
 			ParseDictionary<Models.SmartObjects.Conditions.SegmentCondition>();
 			ParseDictionary<Models.SmartObjects.Conditions.ABTestCondition>();
+			ParseDictionary<Models.SmartObjects.Conditions.Not>();
 			ParseDictionary<Models.SmartObjects.Conditions.AppVersion>();
-			ParseDictionary<Models.SmartObjects.Conditions.EngineVersion>();
+			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldBool>();
 			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldNumber>();
 			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldString>();
-			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldBool>();
 			ParseDictionary<Models.SmartObjects.Conditions.Platform>();
 			ParseDictionary<Models.SmartObjects.Conditions.SystemLanguage>();
-			ParseDictionary<Models.SmartObjects.Conditions.Not>();
+			ParseDictionary<Models.SmartObjects.Conditions.TimeRage>();
 			Game.Init();
 			Store.Init();
 			SmartStorage.SetLoadSmartObjectMethod(LoadSmartObject);

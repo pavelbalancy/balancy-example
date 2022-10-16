@@ -58,6 +58,7 @@ public class UIWindowShop : UIWindowBase
         _tabButtons = new List<UIStoreTabButton>();
         var storeConfig = Balancy.LiveOps.Store.DefaultStore;
         var pages = storeConfig.ActivePages;
+        
         foreach (var page in pages)
         {
             var newButton = Instantiate(storeTabPrefab, tabsContent);

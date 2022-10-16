@@ -9,12 +9,23 @@ namespace Balancy.Models.Store
 	{
 
 		[JsonProperty]
-		private string[] unnyIdPages;
-		private Models.Store.StorePage[] pages;
-		[JsonProperty]
 		private string unnyIdCondition;
 		private Models.SmartObjects.Conditions.Logic condition;
+		[JsonProperty]
+		private string[] unnyIdPages;
+		private Models.Store.StorePage[] pages;
 
+
+		[JsonIgnore]
+		public Models.SmartObjects.Conditions.Logic Condition
+		{
+			get
+			{
+				if (condition == null)
+					condition = DataEditor.GetModelByUnnyId<Models.SmartObjects.Conditions.Logic>(unnyIdCondition);
+				return condition;
+			}
+		}
 
 		[JsonIgnore]
 		public Models.Store.StorePage[] Pages
@@ -29,17 +40,6 @@ namespace Balancy.Models.Store
 						pages[i] = DataEditor.GetModelByUnnyId<Models.Store.StorePage>(unnyIdPages[i]);
 				}
 				return pages;
-			}
-		}
-
-		[JsonIgnore]
-		public Models.SmartObjects.Conditions.Logic Condition
-		{
-			get
-			{
-				if (condition == null)
-					condition = DataEditor.GetModelByUnnyId<Models.SmartObjects.Conditions.Logic>(unnyIdCondition);
-				return condition;
 			}
 		}
 

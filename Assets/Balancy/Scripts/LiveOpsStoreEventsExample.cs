@@ -1,5 +1,6 @@
 ﻿using Balancy.Interfaces;
 using Balancy.Models.LiveOps.Store;
+using Balancy.Models.SmartObjects;
 using UnityEngine;
 
 namespace Balancy
@@ -12,12 +13,12 @@ namespace Balancy
             Debug.Log("=> OnStoreResourcesMultiplierChanged: " + multiplier);
         }
 
-        public void OnStoreUpdated(Config storeConfig)
+        public void OnStoreUpdated(SmartConfig storeConfig)
         {
             Debug.Log("=> OnStoreUpdated: " + storeConfig.UnnyId);
         }
 
-        public void OnStorePageUpdated(Config storeConfig, Page page)
+        public void OnStorePageUpdated(SmartConfig storeConfig, Page page)
         {
             Debug.Log("=> OnStorePageUpdated: " + storeConfig.UnnyId + " page = " + page.Name.Value);
         }

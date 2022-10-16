@@ -13,11 +13,11 @@ namespace Balancy.Models.Store
 		[JsonProperty("systemName")]
 		public readonly string SystemName;
 
-		[JsonProperty("slots")]
-		public readonly Models.Store.StoreSlot[] Slots;
-
 		[JsonProperty("displayName")]
 		public readonly string DisplayName;
+
+		[JsonProperty("slots")]
+		public readonly Models.Store.StoreSlot[] Slots;
 
 	}
 #pragma warning restore 649
