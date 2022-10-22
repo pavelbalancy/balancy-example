@@ -1,4 +1,5 @@
 using System;
+using Balancy.Example;
 using Balancy.Models.LiveOps.Store;
 using Balancy.Models.SmartObjects;
 using Balancy.Models.Store;
@@ -15,6 +16,9 @@ public class UIShopItem : MonoBehaviour
     private TMP_Text itemName;
     
     [SerializeField]
+    private TMP_Text itemsAmountCrossed;
+    
+    [SerializeField]
     private TMP_Text itemsAmount;
     
     [SerializeField]
@@ -25,6 +29,9 @@ public class UIShopItem : MonoBehaviour
 
     [SerializeField]
     private PurchaseTypeConfig config;
+    
+    [SerializeField]
+    private ForceTransformUpdater transformUpdater;
 
     private Action<UIShopItem, Slot> _onPurchase;
     private Slot _storeSlot;
@@ -33,35 +40,53 @@ public class UIShopItem : MonoBehaviour
     {
         var slotView = GetComponent<UIStoreSlotType>();
         slotView?.SetType(storeSlot.Type);
-        
-        itemName.SetText(storeSlot.StoreItem.Name.ToString());
-        remoteImage.LoadObject(storeSlot.StoreItem.Sprite);
-        button.Init(storeSlot.StoreItem.Price, OnTryToBuy);
 
-        ApplyPurchaseConfig(storeSlot);
+        var storeItem = storeSlot.GetStoreItem();
+        itemName.SetText(storeItem.Name.ToString());
+        remoteImage.LoadObject(storeItem.Sprite);
+        button.Init(storeItem.Price, OnTryToBuy);
+
+        ApplyPurchaseConfig(storeItem);
 
         _onPurchase = onPurchase;
         _storeSlot = storeSlot;
     }
 
-    private void ApplyPurchaseConfig(Slot storeSlot)
+    private void ApplyPurchaseConfig(StoreItem storeItem)
     {
-        var purchaseConfig = config.GetPurchaseConfig(storeSlot.StoreItem.GetRewardType());
+        var purchaseConfig = config.GetPurchaseConfig(storeItem.GetRewardType());
         if (purchaseConfig != null)
         {
             itemsAmount.gameObject.SetActive(purchaseConfig.ShowText);
             itemsAmount.color = purchaseConfig.TextColor;
+            itemsAmountCrossed.gameObject.SetActive(purchaseConfig.ShowText);
+            itemsAmountCrossed.color = purchaseConfig.TextColor;
             imageGlow.color = purchaseConfig.GlowColor;
 
             if (purchaseConfig.ShowText)
-                SetPurchaseItemCount(storeSlot.StoreItem);
+                SetPurchaseItemCount(storeItem);
         }
     }
 
     private void SetPurchaseItemCount(StoreItem storeItem)
     {
         var firstItem = storeItem.Reward.Items.Length > 0 ? storeItem.Reward.Items[0] : null;
-        itemsAmount.SetText(firstItem != null ? firstItem.count.ToString() : string.Empty);
+        if (firstItem != null)
+        {
+            itemsAmount.SetText(firstItem.count.ToString());
+            if (storeItem.GetMultiplier() <= 1.001f)
+            {
+                itemsAmountCrossed?.gameObject.SetActive(false);
+            }
+            else
+            {
+                var originalCount = (int)(firstItem.Count / storeItem.GetMultiplier() + 0.5f);
+                itemsAmountCrossed?.SetText(originalCount.ToString());
+                itemsAmountCrossed?.gameObject.SetActive(true);
+            }
+
+            transformUpdater?.ForceUpdate();
+        }
     }
 
     private void OnTryToBuy()

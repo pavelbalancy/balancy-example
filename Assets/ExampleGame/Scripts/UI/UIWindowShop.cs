@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Balancy.API.Payments;
 using Balancy.Data;
 using Balancy.Models.LiveOps.Store;
+using Balancy.Models.SmartObjects;
 using Balancy.Models.Store;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,7 @@ public class UIWindowShop : UIWindowBase
     
     private List<UIStoreTabButton> _tabButtons;
     private DefaultProfile _profile;
+    private Page _selectedStorePage;
 
     private void Awake()
     {
@@ -82,8 +84,21 @@ public class UIWindowShop : UIWindowBase
         RefreshContent(storePage);
     }
 
+    private void RefreshPageAfterUpdate(SmartConfig storeConfig, Page page)
+    {
+        RefreshContent(_selectedStorePage);
+    }
+
     private void RefreshContent(Page storePage)
     {
+        if (_selectedStorePage != storePage)
+        {
+            if (_selectedStorePage != null)
+                _selectedStorePage.OnStorePageUpdatedEvent -= RefreshPageAfterUpdate;
+            _selectedStorePage = storePage;
+            _selectedStorePage.OnStorePageUpdatedEvent += RefreshPageAfterUpdate;
+        }
+
         content.RemoveChildren();
         
         foreach (var storeSlot in storePage.ActiveSlots)
@@ -99,18 +114,19 @@ public class UIWindowShop : UIWindowBase
         if (_profile == null)
             return;
 
-        if (storeSlot.StoreItem.TryToPurchase(_profile))
+        var storeItem = storeSlot.GetStoreItem();
+        if (storeItem.TryToPurchase(_profile))
         {
-            if (storeSlot.StoreItem.IsInApp())
-                Balancy.LiveOps.Store.ItemWasPurchased(storeSlot.StoreItem, new PaymentInfo
+            if (storeItem.IsInApp())
+                Balancy.LiveOps.Store.ItemWasPurchased(storeItem, new PaymentInfo
                 {
                     Currency = "USD",
-                    Price = storeSlot.StoreItem.Price.Product.Price,
-                    ProductId = storeSlot.StoreItem.Price.Product.ProductId,
+                    Price = storeItem.Price.Product.Price,
+                    ProductId = storeItem.Price.Product.ProductId,
                 });
             else
             {
-                Balancy.LiveOps.Store.ItemWasPurchased(storeSlot.StoreItem, storeSlot.StoreItem.Price);
+                Balancy.LiveOps.Store.ItemWasPurchased(storeItem, storeItem.Price);
             }
             //TODO play some animation
         }
