@@ -58,6 +58,7 @@ namespace Balancy
 			ParseDictionary<Models.SmartObjects.Conditions.SegmentCondition>();
 			ParseDictionary<Models.SmartObjects.Conditions.ABTestCondition>();
 			ParseDictionary<Models.SmartObjects.Conditions.TimeRage>();
+			ParseDictionary<Models.SmartObjects.Conditions.StoreItemWasPurchased>();
 			ParseDictionary<Models.SmartObjects.Conditions.AppVersion>();
 			ParseDictionary<Models.SmartObjects.Conditions.EngineVersion>();
 			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldNumber>();

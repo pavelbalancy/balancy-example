@@ -7,7 +7,7 @@
     "plugins": [
         {
             "name": "Balancy",
-            "version": "4.0.0",
+            "version": "4.0.2",
             "description": "Main plugin, mandatory to work",
             "can_be_removed": false,
             "download": [
