@@ -51,6 +51,7 @@
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIStoreTabButton.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/GUIManager.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIShopItem.cs" />
+     <Compile Include="Assets/ExampleGame/Scripts/Utils/MyStoreEvents.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/Utils/TimeFormatter.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/Utils/CloseCurrentWindow.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIStoreSlotType.cs" />
@@ -67,7 +68,6 @@
      <Compile Include="Assets/ExampleGame/Scripts/Utils/ModelExtensions.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/SO/PurchaseTypeConfig.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/MyButton.cs" />
-     <Compile Include="Assets/ExampleGame/Scripts/Utils/MyStoreEvents.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" />
@@ -751,6 +751,10 @@
      </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Balancy.Example.csproj">
+      <Project>{10738617-f309-aa32-c832-eee04f42b414}</Project>
+      <Name>Balancy.Example</Name>
+    </ProjectReference>
     <ProjectReference Include="Balancy.Editor.csproj">
       <Project>{ee2aebd4-0fdb-51d8-c124-7095bf76c161}</Project>
       <Name>Balancy.Editor</Name>

@@ -41,12 +41,12 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets/Balancy/Examples/Scripts/TransformExtension.cs" />
      <Compile Include="Assets/Balancy/Examples/Scripts/SO/QualityRibbonConfig.cs" />
-     <Compile Include="Assets/Balancy/Examples/Scripts/WinStore.cs" />
+     <Compile Include="Assets/Balancy/Examples/Scripts/PageView.cs" />
      <Compile Include="Assets/Balancy/Examples/Scripts/ForceTransformUpdater.cs" />
      <Compile Include="Assets/Balancy/Examples/Scripts/SlotView.cs" />
-     <Compile Include="Assets/Balancy/Examples/Scripts/PageView.cs" />
+     <Compile Include="Assets/Balancy/Examples/Scripts/TransformExtension.cs" />
+     <Compile Include="Assets/Balancy/Examples/Scripts/WinStore.cs" />
      <None Include="Assets/Balancy/Examples/Balancy.Example.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.11f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>

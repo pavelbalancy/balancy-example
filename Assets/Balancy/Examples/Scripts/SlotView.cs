@@ -9,6 +9,8 @@ namespace Balancy.Example
 {
     public class SlotView : MonoBehaviour
     {
+        private const int REFRESH_RATE = 1; 
+        
         [SerializeField] private TMP_Text slotName;
         [SerializeField] private TMP_Text count;
         [SerializeField] private TMP_Text countCrossed;
@@ -21,11 +23,13 @@ namespace Balancy.Example
         [SerializeField] private Button buyButton;
         [SerializeField] private Image buyIcon;
         [SerializeField] private TMP_Text buyText;
+        [SerializeField] private TMP_Text buyHintText;
 
         [SerializeField] private QualityRibbonConfig ribbonConfig;
         [SerializeField] private ForceTransformUpdater transformUpdater;
 
         private Slot _slot;
+        private bool _subscribed;
 
         private void Start()
         {
@@ -35,25 +39,34 @@ namespace Balancy.Example
         private void TryToBuy()
         {
             var storeItem = _slot.GetStoreItem();
-            if (storeItem.IsInApp())
+            if (storeItem.IsFree())
             {
-                Balancy.LiveOps.Store.ItemWasPurchased(storeItem, new PaymentInfo
-                {
-                    Currency = "USD",
-                    Price = storeItem.Price.Product.Price,
-                    ProductId = storeItem.Price.Product.ProductId
-                }, response =>
-                {
-                    Debug.Log("Purchase " + response.Success + " ? " + response.Error?.Message);
-                    //TODO give resources from Reward
-                });
+                Balancy.LiveOps.Store.ItemWasPurchased(storeItem, null);
             }
             else
             {
-                //TODO Try to take soft resources from Price
-                Balancy.LiveOps.Store.ItemWasPurchased(storeItem, storeItem.Price);
-                //TODO give resources from Reward
+                if (storeItem.IsInApp())
+                {
+                    Balancy.LiveOps.Store.ItemWasPurchased(storeItem, new PaymentInfo
+                    {
+                        Currency = "USD",
+                        Price = storeItem.Price.Product.Price,
+                        ProductId = storeItem.Price.Product.ProductId
+                    }, response =>
+                    {
+                        Debug.Log("Purchase " + response.Success + " ? " + response.Error?.Message);
+                        //TODO give resources from Reward
+                    });
+                }
+                else
+                {
+                    //TODO Try to take soft resources from Price
+                    Balancy.LiveOps.Store.ItemWasPurchased(storeItem, storeItem.Price);
+                    //TODO give resources from Reward
+                }
             }
+
+            ApplyBuyButton(storeItem);
         }
 
         public void Init(Slot slot)
@@ -62,6 +75,48 @@ namespace Balancy.Example
             ApplyMainInfo(slot.GetStoreItem());
             ApplyRibbon(slot);
             ApplyBuyButton(slot.GetStoreItem());
+            SubscribeForTimers();
+        }
+
+        private void SubscribeForTimers()
+        {
+            if (_subscribed || _slot == null)
+                return;
+            
+            switch (_slot)
+            {
+                case SlotPeriod _:
+                case SlotCooldown _:
+                {
+                    _subscribed = true;
+                    BalancyTimer.SubscribeForTimer(REFRESH_RATE, Refresh);
+                    break;
+                } 
+            }
+        }
+
+        private void UnsubscribeFromTimers()
+        {
+            if (!_subscribed)
+                return;
+
+            _subscribed = false;
+            BalancyTimer.UnsubscribeFromTimer(REFRESH_RATE, Refresh);
+        }
+
+        private void Refresh()
+        {
+            ApplyBuyButton(_slot.GetStoreItem());
+        }
+
+        private void OnEnable()
+        {
+            SubscribeForTimers();
+        }
+
+        private void OnDisable()
+        {
+            UnsubscribeFromTimers();
         }
 
         private void ApplyMainInfo(StoreItem storeItem)
@@ -119,26 +174,60 @@ namespace Balancy.Example
         private void ApplyBuyButton(StoreItem storeItem)
         {
             buyIcon?.gameObject.SetActive(false);
-            if (storeItem.IsInApp())
+            string buyTextString = "WRONG_PRICE";
+            if (storeItem.IsFree())
             {
-                buyText?.SetText("$ " + storeItem.Price.Product.Price);
+                buyTextString = "Free";
             }
             else
             {
-                var firstItem = storeItem.Price.Items.Length > 0 ? storeItem.Price.Items[0] : null;
-                if (firstItem == null)
+                if (storeItem.IsInApp())
                 {
-                    buyText?.SetText("No price");
+                    buyTextString = "$ " + storeItem.Price.Product?.Price;
                 }
                 else
                 {
-                    buyText?.SetText(firstItem.Count.ToString());
-                    if (buyIcon != null)
+                    var firstItem = storeItem.Price.Items.Length > 0 ? storeItem.Price.Items[0] : null;
+                    if (firstItem == null)
                     {
-                        //TODO buyIcon.sprite = 
+                        buyTextString = "No price";
+                    }
+                    else
+                    {
+                        buyTextString = firstItem.Count.ToString();
+                        if (buyIcon != null)
+                        {
+                            //TODO buyIcon.sprite = 
+                        }
                     }
                 }
             }
+
+            bool showHint = false;
+            switch (_slot)
+            {
+                case SlotPeriod slotPeriod:
+                {
+                    buyTextString += $" ({slotPeriod.GetPurchasesDoneCount()}/{slotPeriod.limit})";
+                    buyHintText.SetText($"Resets in {slotPeriod.GetSecondsUntilReset()}");//TODO fix
+                    showHint = true;
+                    break;
+                }
+                case SlotCooldown slotCooldown:
+                {
+                    if (slotCooldown.IsAvailable())
+                        buyHintText.SetText($"CD {slotCooldown.Cooldown}");
+                    else
+                        buyHintText.SetText($"Resets in {slotCooldown.GetSecondsLeftUntilAvailable()}");
+                    showHint = true;
+                    break;
+                }
+            }
+            
+            buyText?.SetText(buyTextString);
+            buyHintText?.gameObject.SetActive(showHint);
+            if (buyButton != null)
+                buyButton.interactable = _slot.IsAvailable();
         }
     }
 }

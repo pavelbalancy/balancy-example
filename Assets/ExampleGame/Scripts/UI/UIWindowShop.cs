@@ -115,20 +115,27 @@ public class UIWindowShop : UIWindowBase
             return;
 
         var storeItem = storeSlot.GetStoreItem();
-        if (storeItem.TryToPurchase(_profile))
+        if (storeItem.IsFree())
         {
-            if (storeItem.IsInApp())
-                Balancy.LiveOps.Store.ItemWasPurchased(storeItem, new PaymentInfo
-                {
-                    Currency = "USD",
-                    Price = storeItem.Price.Product.Price,
-                    ProductId = storeItem.Price.Product.ProductId,
-                });
-            else
+            Balancy.LiveOps.Store.ItemWasPurchased(storeItem);
+        }
+        else
+        {
+            if (storeItem.TryToPurchase(_profile))
             {
-                Balancy.LiveOps.Store.ItemWasPurchased(storeItem, storeItem.Price);
+                if (storeItem.IsInApp())
+                    Balancy.LiveOps.Store.ItemWasPurchased(storeItem, new PaymentInfo
+                    {
+                        Currency = "USD",
+                        Price = storeItem.Price.Product.Price,
+                        ProductId = storeItem.Price.Product.ProductId,
+                    });
+                else
+                {
+                    Balancy.LiveOps.Store.ItemWasPurchased(storeItem, storeItem.Price);
+                }
+                //TODO play some animation
             }
-            //TODO play some animation
         }
     }
 }

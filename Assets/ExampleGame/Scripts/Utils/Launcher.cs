@@ -57,6 +57,8 @@ public class Launcher : MonoBehaviour
                     Controller.PrintAllErrors();
                 
                 Debug.Log("USER " + Auth.GetUserId());
+                
+                Auth.AsGuest(null);
             }
         });
     }

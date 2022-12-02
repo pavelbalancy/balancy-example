@@ -44,7 +44,7 @@ public class UIShopItem : MonoBehaviour
         var storeItem = storeSlot.GetStoreItem();
         itemName.SetText(storeItem.Name.ToString());
         remoteImage.LoadObject(storeItem.Sprite);
-        button.Init(storeItem.Price, OnTryToBuy);
+        button.Init(storeSlot, OnTryToBuy);
 
         ApplyPurchaseConfig(storeItem);
 

@@ -48,25 +48,6 @@ namespace Balancy
 		}
 
 		static partial void PrepareGeneratedData() {
-			ParseDictionary<Models.SmartObjects.Conditions.And>();
-			ParseDictionary<Models.SmartObjects.Conditions.Or>();
-			ParseDictionary<Models.SmartObjects.Conditions.DatesRage>();
-			ParseDictionary<Models.SmartObjects.Conditions.DayOfTheWeek>();
-			ParseDictionary<Models.SmartObjects.Conditions.TimeOfTheDay>();
-			ParseDictionary<Models.SmartObjects.Conditions.ActiveEvent>();
-			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldInRange>();
-			ParseDictionary<Models.SmartObjects.Conditions.SegmentCondition>();
-			ParseDictionary<Models.SmartObjects.Conditions.ABTestCondition>();
-			ParseDictionary<Models.SmartObjects.Conditions.TimeRage>();
-			ParseDictionary<Models.SmartObjects.Conditions.StoreItemWasPurchased>();
-			ParseDictionary<Models.SmartObjects.Conditions.AppVersion>();
-			ParseDictionary<Models.SmartObjects.Conditions.EngineVersion>();
-			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldNumber>();
-			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldString>();
-			ParseDictionary<Models.SmartObjects.Conditions.ProfileFieldBool>();
-			ParseDictionary<Models.SmartObjects.Conditions.Platform>();
-			ParseDictionary<Models.SmartObjects.Conditions.SystemLanguage>();
-			ParseDictionary<Models.SmartObjects.Conditions.Not>();
 			Game.Init();
 			SmartStorage.SetLoadSmartObjectMethod(LoadSmartObject);
 		}

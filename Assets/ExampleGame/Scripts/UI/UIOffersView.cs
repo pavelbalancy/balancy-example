@@ -37,7 +37,7 @@ public class UIOffersView : MonoBehaviour
     {
         offersContainer.RemoveChildren();
 
-        var allOffers = Manager.GetActiveOffers();
+        var allOffers = LiveOps.GameOffers.GetActiveOffers();
         foreach (var offer in allOffers)
         {
             var newItem = Instantiate(offerPrefab, offersContainer);

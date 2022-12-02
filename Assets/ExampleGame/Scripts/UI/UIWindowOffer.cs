@@ -1,3 +1,4 @@
+using Balancy;
 using Balancy.API.Payments;
 using Balancy.Data.SmartObjects;
 using Balancy.SmartObjects;
@@ -34,7 +35,7 @@ public class UIWindowOffer : UIWindowBase
 
     private void PurchaseOffer()
     {
-        Manager.OfferWasPurchased(_offerInfo, new PaymentInfo
+        LiveOps.GameOffers.OfferWasPurchased(_offerInfo, new PaymentInfo
         {
             Currency = "USD",
             Price = _offerInfo.PriceUSD,

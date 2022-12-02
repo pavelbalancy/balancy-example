@@ -48,6 +48,11 @@ namespace Balancy.Editor
             {
                 Header = "TestsInfo",
                 Description = "AB Testing info"
+            },
+            new ContentInfo
+            {
+                Header = "AdsInfo",
+                Description = "Advertising revenue tracking"
             }
         };
         
