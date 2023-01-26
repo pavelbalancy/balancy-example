@@ -1,9 +1,11 @@
-﻿using System;
+﻿#if UNITY_EDITOR && !BALANCY_SERVER
+using System;
 using System.Collections;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Balancy.Dictionaries;
+using Newtonsoft.Json;
 using UnityEngine.Networking;
 
 namespace Balancy.Editor
@@ -38,7 +40,7 @@ namespace Balancy.Editor
 			req.SetHeader("Content-Type", "application/json")
 				.SetHeader("Authorization", "Bearer " + token);
             
-			var cor = Utils.SendRequest(req, request =>
+			var cor = UnityUtils.SendRequest(req, request =>
 			{
 #if UNITY_2020_1_OR_NEWER
                 if (request.result != UnityWebRequest.Result.Success)
@@ -68,15 +70,15 @@ namespace Balancy.Editor
 				}
 				else
 				{
-					var response = JsonUtility.FromJson<GeneratedCode>(data);
-					if (response.Success)
+					var response = JsonConvert.DeserializeObject<GeneratedCode>(data);
+					if (response?.Success ?? false)
 					{
 						ParseResponse(response, savePath);
 						onComplete?.Invoke();
 					}
 					else
 					{
-						EditorUtility.DisplayDialog("Error", response.Error.Message, "Ok");
+						EditorUtility.DisplayDialog("Error", response?.Error?.Message, "Ok");
 						onComplete();
 					}
 				}
@@ -116,3 +118,4 @@ namespace Balancy.Editor
 		}
 	}
 }
+#endif

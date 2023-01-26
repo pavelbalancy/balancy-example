@@ -10,33 +10,15 @@ namespace Balancy.Models.Game
 
 		[JsonProperty]
 		private string unnyIdGoldItem;
-		private Models.SmartObjects.Item goldItem;
 		[JsonProperty]
 		private string unnyIdGemsItem;
-		private Models.SmartObjects.Item gemsItem;
 
 
 		[JsonIgnore]
-		public Models.SmartObjects.Item GoldItem
-		{
-			get
-			{
-				if (goldItem == null)
-					goldItem = DataEditor.GetModelByUnnyId<Models.SmartObjects.Item>(unnyIdGoldItem);
-				return goldItem;
-			}
-		}
+		public Models.SmartObjects.Item GoldItem => DataEditor.GetModelByUnnyId<Models.SmartObjects.Item>(unnyIdGoldItem);
 
 		[JsonIgnore]
-		public Models.SmartObjects.Item GemsItem
-		{
-			get
-			{
-				if (gemsItem == null)
-					gemsItem = DataEditor.GetModelByUnnyId<Models.SmartObjects.Item>(unnyIdGemsItem);
-				return gemsItem;
-			}
-		}
+		public Models.SmartObjects.Item GemsItem => DataEditor.GetModelByUnnyId<Models.SmartObjects.Item>(unnyIdGemsItem);
 
 	}
 #pragma warning restore 649

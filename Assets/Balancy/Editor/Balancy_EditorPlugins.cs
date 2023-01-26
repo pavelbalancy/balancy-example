@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR && !BALANCY_SERVER
+using UnityEngine;
 using UnityEditor;
 
 namespace Balancy.Editor
@@ -45,3 +46,4 @@ namespace Balancy.Editor
         }
     }
 }
+#endif

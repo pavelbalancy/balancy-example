@@ -1,4 +1,5 @@
-﻿using Balancy.Data;
+﻿#if !BALANCY_SERVER
+using Balancy.Data;
 using Balancy.Data.SmartObjects;
 using Balancy.Models.SmartObjects;
 using Balancy.SmartObjects;
@@ -38,9 +39,19 @@ namespace Balancy
             Debug.Log("=> OnNewOfferActivated: " + offerInfo?.GameOffer?.Name + " ; Price = " + offerInfo?.PriceUSD + " ; Discount = " + offerInfo?.Discount);
         }
 
+        public void OnNewOfferGroupActivated(OfferGroupInfo offerInfo)
+        {
+            Debug.Log("=> OnNewOfferGroupActivated: " + offerInfo?.GameOfferGroup?.Name);
+        }
+
         public void OnOfferDeactivated(OfferInfo offerInfo, bool wasPurchased)
         {
             Debug.Log("=> OnOfferDeactivated: " + offerInfo?.GameOffer?.Name + " ; wasPurchased = " + wasPurchased);
+        }
+
+        public void OnOfferGroupDeactivated(OfferGroupInfo offerInfo, bool wasPurchased)
+        {
+            Debug.Log("=> OnOfferGroupDeactivated: " + offerInfo?.GameOfferGroup?.Name + " ; wasPurchased = " + wasPurchased);
         }
 
         public void OnNewEventActivated(EventInfo eventInfo)
@@ -56,6 +67,11 @@ namespace Balancy
         public void OnOfferPurchased(OfferInfo offerInfo)
         {
             Debug.Log("=> OnOfferPurchased: " + offerInfo?.GameOffer?.Name);
+        }
+
+        public void OnOfferGroupPurchased(OfferGroupInfo offerInfo, StoreItem storeItem)
+        {
+            Debug.Log("=> OnOfferGroupPurchased: " + offerInfo?.GameOfferGroup?.Name + " : storeItem = " + storeItem?.Name);
         }
 
         public void OnOfferFailedToPurchase(OfferInfo offerInfo, string error)
@@ -89,3 +105,4 @@ namespace Balancy
         }
     }
 }
+#endif

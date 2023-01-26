@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿#if UNITY_EDITOR && !BALANCY_SERVER
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -274,7 +274,7 @@ namespace Balancy.Editor
                 for (int i = 0; i < Download.Length; i++)
                 {
                     var fullPath = PLUGINS_LOCAL_FOLDER + Download[i].File;
-                    Balancy.Utils.CheckAndCreateDirectoryForFile(fullPath);
+                    Balancy.UnityUtils.CheckAndCreateDirectoryForFile(fullPath);
                     File.WriteAllBytes(fullPath, remoteFiles[i]);
                 }
 
@@ -351,7 +351,7 @@ namespace Balancy.Editor
             public void SaveLocally()
             {
                 string str = JsonConvert.SerializeObject(this);
-                Balancy.Utils.CheckAndCreateDirectoryForFile(PLUGINS_ADDRESS_LOCAL);
+                Balancy.UnityUtils.CheckAndCreateDirectoryForFile(PLUGINS_ADDRESS_LOCAL);
                 FileHelper.SaveToFilePath(PLUGINS_ADDRESS_LOCAL, str);
                 AssetDatabase.Refresh();
             }
@@ -374,7 +374,7 @@ namespace Balancy.Editor
             const string replace = "{0}";
 
             string newCode = code.Replace(replace, insertString);
-            Balancy.Utils.CheckAndCreateDirectoryForFile(CODE_GENERATION_FILE);
+            Balancy.UnityUtils.CheckAndCreateDirectoryForFile(CODE_GENERATION_FILE);
             FileHelper.SaveToFilePath(CODE_GENERATION_FILE, newCode);
             AssetDatabase.Refresh();
         }

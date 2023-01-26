@@ -9,13 +9,13 @@ namespace Balancy
 	public partial class DataEditor
 	{
 
-		private static void LoadSmartObject(string name, string key, Action<ParentBaseData> callback)
+		private static void LoadSmartObject(string userId, string name, string key, Action<ParentBaseData> callback)
 		{
 			switch (name)
 			{
 				case "DefaultProfile":
 				{
-					SmartStorage.LoadSmartObject<Data.DefaultProfile>(key, responseData =>
+					SmartStorage.LoadSmartObject<Data.DefaultProfile>(userId, key, responseData =>
 					{
 						callback?.Invoke(responseData.Data);
 					});
@@ -23,7 +23,7 @@ namespace Balancy
 				}
 				case "SmartObjects.UnnyProfile":
 				{
-					SmartStorage.LoadSmartObject<Data.SmartObjects.UnnyProfile>(key, responseData =>
+					SmartStorage.LoadSmartObject<Data.SmartObjects.UnnyProfile>(userId, key, responseData =>
 					{
 						callback?.Invoke(responseData.Data);
 					});

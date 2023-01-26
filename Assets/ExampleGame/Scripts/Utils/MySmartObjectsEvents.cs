@@ -43,10 +43,20 @@ namespace Balancy
             OnNewOfferActivatedEvent?.Invoke(offerInfo);
         }
 
+        public void OnNewOfferGroupActivated(OfferGroupInfo offerInfo)
+        {
+            Debug.Log("=> OnNewOfferGroupActivated: " + offerInfo?.GameOfferGroup?.Name);
+        }
+
         public void OnOfferDeactivated(OfferInfo offerInfo, bool wasPurchased)
         {
             Debug.Log("=> OnOfferDeactivated: " + offerInfo?.GameOffer?.Name + " ; wasPurchased = " + wasPurchased);
             OnOfferDeactivatedEvent?.Invoke(offerInfo, wasPurchased);
+        }
+
+        public void OnOfferGroupDeactivated(OfferGroupInfo offerInfo, bool wasPurchased)
+        {
+            Debug.Log("=> OnOfferGroupDeactivated: " + offerInfo?.GameOfferGroup?.Name + " ; wasPurchased = " + wasPurchased);
         }
 
         public void OnNewEventActivated(EventInfo eventInfo)
@@ -62,6 +72,11 @@ namespace Balancy
         public void OnOfferPurchased(OfferInfo offerInfo)
         {
             Debug.Log("=> OnOfferPurchased: " + offerInfo?.GameOffer?.Name);
+        }
+
+        public void OnOfferGroupPurchased(OfferGroupInfo offerInfo, StoreItem storeItem)
+        {
+            Debug.Log("=> OnOfferGroupPurchased: " + offerInfo?.GameOfferGroup?.Name + " : storeItem = " + storeItem?.Name);
         }
 
         public void OnOfferFailedToPurchase(OfferInfo offerInfo, string error)

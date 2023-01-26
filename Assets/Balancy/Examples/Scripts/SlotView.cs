@@ -1,3 +1,4 @@
+using System;
 using Balancy.API.Payments;
 using Balancy.Models.LiveOps.Store;
 using Balancy.Models.SmartObjects;
@@ -45,24 +46,39 @@ namespace Balancy.Example
             }
             else
             {
-                if (storeItem.IsInApp())
+                switch (storeItem.Price.Type)
                 {
-                    Balancy.LiveOps.Store.ItemWasPurchased(storeItem, new PaymentInfo
-                    {
-                        Currency = "USD",
-                        Price = storeItem.Price.Product.Price,
-                        ProductId = storeItem.Price.Product.ProductId
-                    }, response =>
-                    {
-                        Debug.Log("Purchase " + response.Success + " ? " + response.Error?.Message);
+                    case PriceType.Hard:
+                        Balancy.LiveOps.Store.ItemWasPurchased(storeItem, new PaymentInfo
+                        {
+                            Currency = "USD",
+                            Price = storeItem.Price.Product.Price,
+                            ProductId = storeItem.Price.Product.ProductId
+                        }, response =>
+                        {
+                            Debug.Log("Purchase " + response.Success + " ? " + response.Error?.Message);
+                            //TODO give resources from Reward
+                        });
+                        break;
+                    case PriceType.Soft:
+                        //TODO Try to take soft resources from Price
+                        Balancy.LiveOps.Store.ItemWasPurchased(storeItem, storeItem.Price);
                         //TODO give resources from Reward
-                    });
-                }
-                else
-                {
-                    //TODO Try to take soft resources from Price
-                    Balancy.LiveOps.Store.ItemWasPurchased(storeItem, storeItem.Price);
-                    //TODO give resources from Reward
+                        break;
+                    case PriceType.Ads:
+                        if (storeItem.IsEnoughResources())
+                        {
+                            Balancy.LiveOps.Store.PurchaseStoreItem(storeItem,
+                                response => { Debug.Log("Store item was purchased for Ads: " + response.Success); });
+                        }
+                        else
+                        {
+                            LiveOps.Store.AdWasWatchedForStoreItem(storeItem);
+                        }
+
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 
@@ -181,25 +197,31 @@ namespace Balancy.Example
             }
             else
             {
-                if (storeItem.IsInApp())
+                switch (storeItem.Price.Type)
                 {
-                    buyTextString = "$ " + storeItem.Price.Product?.Price;
-                }
-                else
-                {
-                    var firstItem = storeItem.Price.Items.Length > 0 ? storeItem.Price.Items[0] : null;
-                    if (firstItem == null)
-                    {
-                        buyTextString = "No price";
-                    }
-                    else
-                    {
-                        buyTextString = firstItem.Count.ToString();
-                        if (buyIcon != null)
+                    case PriceType.Hard:
+                        buyTextString = "$ " + storeItem.Price.Product?.Price;
+                        break;
+                    case PriceType.Soft:
+                        var firstItem = storeItem.Price.Items.Length > 0 ? storeItem.Price.Items[0] : null;
+                        if (firstItem == null)
                         {
-                            //TODO buyIcon.sprite = 
+                            buyTextString = "No price";
                         }
-                    }
+                        else
+                        {
+                            buyTextString = firstItem.Count.ToString();
+                            if (buyIcon != null)
+                            {
+                                //TODO buyIcon.sprite = 
+                            }
+                        }
+                        break;
+                    case PriceType.Ads:
+                        buyTextString = $"Watch Ads: {storeItem.GetWatchedAds()}/{storeItem.GetRequiredAdsToWatch()}";
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
 
@@ -208,7 +230,7 @@ namespace Balancy.Example
             {
                 case SlotPeriod slotPeriod:
                 {
-                    buyTextString += $" ({slotPeriod.GetPurchasesDoneCount()}/{slotPeriod.limit})";
+                    buyTextString += $" ({slotPeriod.GetPurchasesDoneCount()}/{slotPeriod.Limit})";
                     buyHintText.SetText($"Resets in {slotPeriod.GetSecondsUntilReset()}");//TODO fix
                     showHint = true;
                     break;

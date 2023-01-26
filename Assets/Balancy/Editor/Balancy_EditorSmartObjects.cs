@@ -1,4 +1,5 @@
-﻿using Balancy.Data;
+﻿#if !BALANCY_SERVER
+using Balancy.Data;
 using Balancy.Dictionaries;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -53,6 +54,12 @@ namespace Balancy.Editor
             {
                 Header = "AdsInfo",
                 Description = "Advertising revenue tracking"
+            }
+            ,
+            new ContentInfo
+            {
+                Header = "LiveOpsInfo",
+                Description = "LiveOps features"
             }
         };
         
@@ -140,3 +147,4 @@ namespace Balancy.Editor
         }
     }
 }
+#endif

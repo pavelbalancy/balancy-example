@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿#if UNITY_EDITOR && !BALANCY_SERVER
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -336,7 +336,7 @@ namespace Balancy.Editor
         _pluginsRemote = PluginUtils.GetRemotePluginsForTest();
         _status = Status.Ready;
 #else
-            EditorCoroutineHelper.Execute(LoadRemoteConfig());
+            LoadRemoteConfig();
 #endif
         }
 
@@ -355,20 +355,19 @@ namespace Balancy.Editor
             }
         }
 
-        private IEnumerator LoadRemoteConfig()
+        private async void LoadRemoteConfig()
         {
-            var r = new WWWResult();
-            yield return Loader.TryLoadFile(PluginUtils.PLUGINS_ADDRESS_REMOTE, r);
-            if (!r.Success)
+            var result = await Loader.TryLoadFile(PluginUtils.PLUGINS_ADDRESS_REMOTE);
+            if (string.IsNullOrEmpty(result))
             {
-                EditorUtility.DisplayDialog("Error", r.GetFullError(), "Ok");
-                yield break;
+                EditorUtility.DisplayDialog("Error", "Something went wrong", "Ok");
             }
-
-            var text = r.GetResult();
-            _pluginsRemote = JsonConvert.DeserializeObject<PluginsFile>(text);
-
-            _status = Status.Ready;
+            else
+            {
+                var text = result;
+                _pluginsRemote = JsonConvert.DeserializeObject<PluginsFile>(text);
+                _status = Status.Ready;
+            }
         }
     }
 }

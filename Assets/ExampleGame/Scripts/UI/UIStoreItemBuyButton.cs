@@ -80,7 +80,7 @@ public class UIStoreItemBuyButton : MonoBehaviour
         switch (slot)
         {
             case SlotPeriod slotPeriod:
-                limitString = $" ({slotPeriod.GetPurchasesDoneCount()}/{slotPeriod.limit})";
+                limitString = $" ({slotPeriod.GetPurchasesDoneCount()}/{slotPeriod.Limit})";
                 break;
         }
         

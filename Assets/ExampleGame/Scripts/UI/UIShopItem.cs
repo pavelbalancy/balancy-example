@@ -73,7 +73,7 @@ public class UIShopItem : MonoBehaviour
         var firstItem = storeItem.Reward.Items.Length > 0 ? storeItem.Reward.Items[0] : null;
         if (firstItem != null)
         {
-            itemsAmount.SetText(firstItem.count.ToString());
+            itemsAmount.SetText(firstItem.Count.ToString());
             if (storeItem.GetMultiplier() <= 1.001f)
             {
                 itemsAmountCrossed?.gameObject.SetActive(false);

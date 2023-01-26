@@ -37,7 +37,7 @@
 		"url": "https://balancy.co/"
 	},
 	"dependencies": {
-		"com.unity.nuget.newtonsoft-json": "2.0.0"
+		"com.unity.nuget.newtonsoft-json": "3.0.2"
 	},
 	"documentationUrl": "https://en.docs.balancy.dev",
 	"changelogUrl": "https://en.docs.balancy.dev/release_notes.html"

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR && !BALANCY_SERVER
+using System;
 using UnityEngine;
 using UnityEditor;
 using System.IO;
@@ -264,7 +265,7 @@ namespace Balancy.Editor
                 // .SetHeader("Accept", "application/json")
                 .SetHeader("authorization", "Bearer " + _userInfo.AccessToken);
             
-            var cor = Utils.SendRequest(req, request =>
+            var cor = UnityUtils.SendRequest(req, request =>
             {
 #if UNITY_2020_1_OR_NEWER
                 if (request.result != UnityWebRequest.Result.Success)
@@ -293,7 +294,7 @@ namespace Balancy.Editor
                 .AddBody("email", email)
                 .AddBody("password", password);
 
-            var cor = Utils.SendRequest(req, request =>
+            var cor = UnityUtils.SendRequest(req, request =>
             {
 #if UNITY_2020_1_OR_NEWER
                 if (request.result != UnityWebRequest.Result.Success)
@@ -324,3 +325,4 @@ namespace Balancy.Editor
         }
     }
 }
+#endif

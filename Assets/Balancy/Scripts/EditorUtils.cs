@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿#if UNITY_EDITOR && !BALANCY_SERVER
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -23,13 +23,13 @@ namespace Balancy
             return allTexture;
         }
 
-        public class ServerRequest : Utils.IRequestInfo
+        public class ServerRequest : UnityUtils.IUnityRequestInfo
         {
             public string Url { get; }
             public Dictionary<string, string> Headers { get; }
             public Dictionary<string, object> Body { get; }
             public bool IsMultipart { get; set; }
-            public List<Utils.ImageInfo> Images { get; private set;}
+            public List<UnityUtils.ImageInfo> Images { get; private set;}
 
             public string Method;
 
@@ -72,8 +72,8 @@ namespace Balancy
             public ServerRequest AddTexture(Texture2D img, string name, string prefabName)
             {
                 if (Images == null)
-                    Images = new List<Utils.ImageInfo>();
-                Images.Add(new Utils.ImageInfo(img, name, prefabName));
+                    Images = new List<UnityUtils.ImageInfo>();
+                Images.Add(new UnityUtils.ImageInfo(img, name, prefabName));
 
                 return this;
             }

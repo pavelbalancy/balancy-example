@@ -1,4 +1,4 @@
-﻿#if !BALANCY_CREATOR
+﻿#if !BALANCY_CREATOR && !BALANCY_SERVER
 using System;
 using UnityEngine;
 using UnityEditor;

@@ -56,14 +56,14 @@ public static class ModelExtensions
             case ItemType.Other:
                 return false;
             case ItemType.Gems:
-                if (profile.Info.Gems < priceItem.count)
+                if (profile.Info.Gems < priceItem.Count)
                     return false;
-                profile.Info.Gems -= priceItem.count;
+                profile.Info.Gems -= priceItem.Count;
                 return true;
             case ItemType.Gold:
-                if (profile.Info.Gold < priceItem.count)
+                if (profile.Info.Gold < priceItem.Count)
                     return false;
-                profile.Info.Gold -= priceItem.count;
+                profile.Info.Gold -= priceItem.Count;
                 return true;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -79,10 +79,10 @@ public static class ModelExtensions
             case ItemType.Other:
                 break;
             case ItemType.Gems:
-                profile.Info.Gems += rewardItem.count;
+                profile.Info.Gems += rewardItem.Count;
                 break;
             case ItemType.Gold:
-                profile.Info.Gold += rewardItem.count;
+                profile.Info.Gold += rewardItem.Count;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
