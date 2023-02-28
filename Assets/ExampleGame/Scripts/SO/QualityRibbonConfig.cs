@@ -1,6 +1,5 @@
 using System;
 using Balancy.Models.LiveOps.Store;
-using Balancy.Models.Store;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "QualityRibbonConfig", menuName = "ScriptableObjects/QualityRibbonConfig", order = 1)]

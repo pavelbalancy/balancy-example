@@ -6,6 +6,7 @@ public enum WinType
     Inventory,
     Store,
     SpecialOffer,
+    OffersGroup
 }
 
 public class UIWindowBase : MonoBehaviour
@@ -26,4 +27,9 @@ public class UIWindowBase : MonoBehaviour
     }
     
     public virtual void Init(object data) {}
+    
+    protected void CloseWindow()
+    {
+        GlobalEvents.UI.InvokeCloseCurrentWindow();
+    }
 }

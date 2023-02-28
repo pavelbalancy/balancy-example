@@ -4,27 +4,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIOfferIconView : MonoBehaviour
+public class UIOfferGroupIconView : MonoBehaviour
 {
     private const int TIMER_UPDATE = 1;
     
     [SerializeField]
     private RemoteImage image;
     [SerializeField]
-    private TMP_Text discount;
-    [SerializeField]
     private TMP_Text timeLeft;
     [SerializeField]
     private Button button;
 
-    private OfferInfo _offerInfo;
-    public void Init(OfferInfo offerInfo)
+    private OfferGroupInfo _offerInfo;
+    
+    public void Init(OfferGroupInfo offerInfo)
     {
         _offerInfo = offerInfo;
-        image.LoadObject(_offerInfo.GameOffer.Sprite);
-        discount.SetText($"{_offerInfo.Discount}%");
+        image.LoadObject(_offerInfo.GameOfferGroup.Icon);
     }
-    
+
     private void Awake()
     {
         button.onClick.AddListener(OnOpenOffer);
@@ -33,7 +31,7 @@ public class UIOfferIconView : MonoBehaviour
 
     private void OnOpenOffer()
     {
-        GlobalEvents.UI.InvokeOpenWindow(WinType.SpecialOffer, _offerInfo);
+        GlobalEvents.UI.InvokeOpenWindow(WinType.OffersGroup, _offerInfo);
     }
 
     private void OnDestroy()
@@ -43,7 +41,7 @@ public class UIOfferIconView : MonoBehaviour
 
     private void UpdateTimer()
     {
-        if (_offerInfo.GameOffer.Duration == 0)
+        if (_offerInfo.GameOfferGroup.Duration == 0)
         {
             timeLeft.gameObject.SetActive(false);
             return;

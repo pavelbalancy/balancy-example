@@ -3,7 +3,6 @@ using Balancy.API.Payments;
 using Balancy.Data;
 using Balancy.Models.LiveOps.Store;
 using Balancy.Models.SmartObjects;
-using Balancy.Models.Store;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,11 +32,6 @@ public class UIWindowShop : UIWindowBase
         Launcher.WaitForBalancyToInit(Init);
         backButton.onClick.AddListener(CloseWindow);
         homeButton.onClick.AddListener(CloseWindow);
-    }
-
-    private void CloseWindow()
-    {
-        GlobalEvents.UI.InvokeCloseCurrentWindow();
     }
 
     private void Init()

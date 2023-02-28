@@ -10,6 +10,8 @@ namespace Balancy
     public class MySmartObjectsEvents : ISmartObjectsEvents
     {
         public static Action<OfferInfo> OnNewOfferActivatedEvent;
+        public static Action<OfferGroupInfo> OnNewOfferGroupActivatedEvent;
+        public static Action<OfferGroupInfo> OnOfferGroupDeactivatedEvent;
         public static Action<OfferInfo, bool> OnOfferDeactivatedEvent;
         public static Action OnSmartObjectsInitializedEvent;
         
@@ -46,6 +48,8 @@ namespace Balancy
         public void OnNewOfferGroupActivated(OfferGroupInfo offerInfo)
         {
             Debug.Log("=> OnNewOfferGroupActivated: " + offerInfo?.GameOfferGroup?.Name);
+            GlobalEvents.UI.InvokeOpenWindow(WinType.OffersGroup, offerInfo);
+            OnNewOfferGroupActivatedEvent?.Invoke(offerInfo);
         }
 
         public void OnOfferDeactivated(OfferInfo offerInfo, bool wasPurchased)
@@ -57,6 +61,7 @@ namespace Balancy
         public void OnOfferGroupDeactivated(OfferGroupInfo offerInfo, bool wasPurchased)
         {
             Debug.Log("=> OnOfferGroupDeactivated: " + offerInfo?.GameOfferGroup?.Name + " ; wasPurchased = " + wasPurchased);
+            OnOfferGroupDeactivatedEvent?.Invoke(offerInfo);
         }
 
         public void OnNewEventActivated(EventInfo eventInfo)
