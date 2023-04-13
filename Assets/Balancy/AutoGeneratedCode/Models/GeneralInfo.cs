@@ -7,24 +7,10 @@ namespace Balancy.Data
 
 	public class GeneralInfo : BaseData
 	{
-
-		[JsonProperty]
-		private int level;
 		[JsonProperty]
 		private int gems;
 		[JsonProperty]
 		private int gold;
-
-
-		[JsonIgnore]
-		public int Level
-		{
-			get => level;
-			set {
-				if (UpdateValue(ref level, value))
-					_cache?.UpdateStorageValue(_path + "Level", level);
-			}
-		}
 
 		[JsonIgnore]
 		public int Gems
@@ -61,7 +47,6 @@ namespace Balancy.Data
 		protected override void AddAllParamsToCache(string path, IInternalStorageCache cache)
 		{
 			base.AddAllParamsToCache(path, cache);
-			AddCachedItem(path + "Level", level, newValue => Level = Utils.ToInt(newValue), cache);
 			AddCachedItem(path + "Gems", gems, newValue => Gems = Utils.ToInt(newValue), cache);
 			AddCachedItem(path + "Gold", gold, newValue => Gold = Utils.ToInt(newValue), cache);
 		}
