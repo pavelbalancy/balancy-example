@@ -78,7 +78,7 @@ public class UIWindowShop : UIWindowBase
         RefreshContent(storePage);
     }
 
-    private void RefreshPageAfterUpdate(SmartConfig storeConfig, Page page)
+    private void RefreshPageAfterUpdate(GameStoreBase storeConfig, Page page)
     {
         RefreshContent(_selectedStorePage);
     }

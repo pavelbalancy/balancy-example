@@ -67,6 +67,7 @@ namespace Balancy.Editor
 				if (!string.IsNullOrEmpty(error))
 				{
 					EditorUtility.DisplayDialog("Error", error, "Ok");
+					onComplete?.Invoke();
 				}
 				else
 				{

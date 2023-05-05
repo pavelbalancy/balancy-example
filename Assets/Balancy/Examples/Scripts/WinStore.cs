@@ -30,7 +30,7 @@ namespace Balancy.Example
             }
         }
 
-        private void Refresh(SmartConfig smartConfig)
+        private void Refresh(GameStoreBase smartConfig)
         {
             content.RemoveChildren();
 

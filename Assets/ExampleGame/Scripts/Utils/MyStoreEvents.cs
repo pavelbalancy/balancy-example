@@ -12,12 +12,12 @@ namespace Balancy
             Debug.Log("=> OnStoreResourcesMultiplierChanged: " + multiplier);
         }
 
-        public void OnStoreUpdated(SmartConfig storeConfig)
+        public void OnStoreUpdated(GameStoreBase storeConfig)
         {
             Debug.Log("=> OnStoreUpdated: " + storeConfig.UnnyId);
         }
 
-        public void OnStorePageUpdated(SmartConfig storeConfig, Page page)
+        public void OnStorePageUpdated(GameStoreBase storeConfig, Page page)
         {
             Debug.Log("=> OnStorePageUpdated: " + storeConfig.UnnyId + " page = " + page.Name.Value);
         }

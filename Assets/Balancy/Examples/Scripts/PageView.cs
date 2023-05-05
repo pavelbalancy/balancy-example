@@ -12,7 +12,7 @@ namespace Balancy.Example
         [SerializeField] private GameObject slotPrefab;
 
         private Page _page;
-        public void Init(SmartConfig smartConfig, Page page)
+        public void Init(GameStoreBase smartConfig, Page page)
         {
             _page = page;
             page.OnStorePageUpdatedEvent += Refresh;
@@ -30,7 +30,7 @@ namespace Balancy.Example
             }
         }
 
-        private void Refresh(SmartConfig smartConfig, Page page)
+        private void Refresh(GameStoreBase smartConfig, Page page)
         {
             content.RemoveChildren();
             
