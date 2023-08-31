@@ -321,7 +321,7 @@
      <HintPath>/Volumes/PavelData/Projects/balancy-example/Library/PackageCache/com.unity.collab-proxy@1.17.2/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
      </Reference>
      <Reference Include="Newtonsoft.Json">
-     <HintPath>/Volumes/PavelData/Projects/balancy-example/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll</HintPath>
+     <HintPath>/Volumes/PavelData/Projects/balancy-example/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.2.1/Runtime/Newtonsoft.Json.dll</HintPath>
      </Reference>
      <Reference Include="BalancyLib">
      <HintPath>/Volumes/PavelData/Projects/balancy-example/Assets/Balancy/Plugins/BalancyLib.dll</HintPath>

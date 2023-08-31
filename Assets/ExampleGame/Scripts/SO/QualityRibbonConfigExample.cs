@@ -3,7 +3,7 @@ using Balancy.Models.LiveOps.Store;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "QualityRibbonConfig", menuName = "ScriptableObjects/QualityRibbonConfig", order = 1)]
-public class QualityRibbonConfig : ScriptableObject
+public class QualityRibbonConfigExample : ScriptableObject
 {
     [Serializable]
     public class QualityConfig

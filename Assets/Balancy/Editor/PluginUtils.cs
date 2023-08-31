@@ -252,23 +252,25 @@ namespace Balancy.Editor
 
                 for (int i = 0; i < Download.Length; i++)
                 {
-                    UnityWebRequest www = UnityWebRequest.Get(Download[i].Url);
-                    yield return www.SendWebRequest();
+                    using (UnityWebRequest www = UnityWebRequest.Get(Download[i].Url))
+                    {
+                        yield return www.SendWebRequest();
 
 #if UNITY_2020_1_OR_NEWER
-                if (www.result != UnityWebRequest.Result.Success)
+                        if (www.result != UnityWebRequest.Result.Success)
 #else
                     if (www.isNetworkError || www.isHttpError)
 #endif
-                    {
-                        EditorUtility.DisplayDialog("Error", www.error, "Ok");
-                        yield break;
+                        {
+                            EditorUtility.DisplayDialog("Error", www.error, "Ok");
+                            yield break;
+                        }
+
+                        remoteFiles[i] = www.downloadHandler.data;
+
+                        InstallProgress = (i + 1) * perFileProgress;
+                        onRedraw?.Invoke();
                     }
-
-                    remoteFiles[i] = www.downloadHandler.data;
-
-                    InstallProgress = (i + 1) * perFileProgress;
-                    onRedraw?.Invoke();
                 }
 
                 for (int i = 0; i < Download.Length; i++)

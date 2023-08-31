@@ -35,6 +35,24 @@ namespace Balancy
 			}
 		}
 
+		static partial void MoveAllData(string userId)
+		{
+			MigrateSmartObject(userId, "DefaultProfile");
+			MigrateSmartObject(userId, "UnnyProfile");
+		}
+
+		static partial void TransferAllSmartObjectsFromLocalToCloud(string userId)
+		{
+			TransferSmartObjectFromLocalToCloud<Data.DefaultProfile>(userId);
+			TransferSmartObjectFromLocalToCloud<Data.SmartObjects.UnnyProfile>(userId);
+		}
+
+		static partial void ResetAllSmartObjects(string userId)
+		{
+			ResetSmartObject<Data.DefaultProfile>(userId);
+			ResetSmartObject<Data.SmartObjects.UnnyProfile>(userId);
+		}
+
 		public static class Game
 		{
 			public static List<Models.Game.GameItem> GameItems { get; private set; }

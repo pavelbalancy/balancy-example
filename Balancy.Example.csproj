@@ -42,13 +42,13 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets/Balancy/Examples/Scripts/SO/QualityRibbonConfig.cs" />
+     <Compile Include="Assets/Balancy/Examples/Scripts/DailyBonusSlot.cs" />
      <Compile Include="Assets/Balancy/Examples/Scripts/PageView.cs" />
      <Compile Include="Assets/Balancy/Examples/Scripts/ForceTransformUpdater.cs" />
+     <Compile Include="Assets/Balancy/Examples/Scripts/DailyBonusView.cs" />
      <Compile Include="Assets/Balancy/Examples/Scripts/SlotView.cs" />
      <Compile Include="Assets/Balancy/Examples/Scripts/TransformExtension.cs" />
      <Compile Include="Assets/Balancy/Examples/Scripts/WinStore.cs" />
-     <Compile Include="Assets/Balancy/Examples/Scripts/DailyBonusSlot.cs" />
-     <Compile Include="Assets/Balancy/Examples/Scripts/DailyBonusView.cs" />
      <None Include="Assets/Balancy/Examples/Balancy.Example.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.11f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -315,7 +315,7 @@
      <HintPath>/Volumes/PavelData/Projects/balancy-example/Library/PackageCache/com.unity.collab-proxy@1.17.2/Lib/Editor/PlasticSCM/log4netPlastic.dll</HintPath>
      </Reference>
      <Reference Include="Newtonsoft.Json">
-     <HintPath>/Volumes/PavelData/Projects/balancy-example/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll</HintPath>
+     <HintPath>/Volumes/PavelData/Projects/balancy-example/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.2.1/Runtime/Newtonsoft.Json.dll</HintPath>
      </Reference>
      <Reference Include="BalancyLib">
      <HintPath>/Volumes/PavelData/Projects/balancy-example/Assets/Balancy/Plugins/BalancyLib.dll</HintPath>

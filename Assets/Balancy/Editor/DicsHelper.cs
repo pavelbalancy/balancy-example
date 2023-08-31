@@ -10,11 +10,11 @@ namespace Balancy.Editor {
         private static Loader _loader;
         private static string _apiGameId;
         
+#if BALANCY_SERVER
         public static void LoadDocs(BaseAppConfig settings, Action<LoaderResponseData> onCompleted, Action<string, float> onProgress, int version = 0)
         {
-
             _apiGameId = settings.ApiGameId;
-            _loader = new Loader(settings, true, SaveDataObjectsInResources);
+            _loader = new Loader(settings, true);
 
             _loader.Load(responseData =>
             {
@@ -22,7 +22,21 @@ namespace Balancy.Editor {
                 onCompleted?.Invoke(responseData);
             }, onProgress, version);
         }
-        
+#else
+
+        public static void LoadDocs(BaseAppConfig settings, Action<LoaderResponseData> onCompleted, Action<string, float> onProgress, int version = 0)
+        {
+            _apiGameId = settings.ApiGameId;
+            _loader = new Loader(settings, true, SaveDataObjectsInResources);
+
+            _loader.Load(responseData =>
+            {
+                AssetDatabase.Refresh();
+                onCompleted?.Invoke(responseData);
+                Coroutines.Clear();
+            }, onProgress, version);
+        }
+
         private static void SaveDataObjectsInResources(DataObjects dataObjects, Action doneCallback)
         {
             var helper = EditorCoroutineHelper.Create();
@@ -72,5 +86,6 @@ namespace Balancy.Editor {
             AssetDatabase.Refresh();
             doneCallback?.Invoke();
         }
+#endif
     }
 }

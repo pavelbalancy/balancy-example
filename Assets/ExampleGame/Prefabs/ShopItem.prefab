@@ -367,9 +367,9 @@ MonoBehaviour:
   itemsAmountCrossed: {fileID: 4353297670684885504}
   itemsAmount: {fileID: 7144570442248216399}
   imageGlow: {fileID: 3997218960121172752}
-  button: {fileID: 8255636389876112499}
   config: {fileID: 11400000, guid: 9b2599ad33ee94c8d91e381f62337d89, type: 2}
   transformUpdater: {fileID: 8538204440756421493}
+  button: {fileID: 8255636389876112499}
 --- !u!114 &6164627211562203217
 MonoBehaviour:
   m_ObjectHideFlags: 0

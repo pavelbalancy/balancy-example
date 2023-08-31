@@ -1,13 +1,13 @@
 {
     "editor": {
         "url": "https://data.un-cdn.unnyplay.com/config/Packages/balancy_latest.unitypackage",
-        "version": "3.6.3",
-        "min_version": "3.6.2"
+        "version": "3.7.0",
+        "min_version": "3.7.0"
     },
     "plugins": [
         {
             "name": "Balancy",
-            "version": "4.2.18",
+            "version": "4.3.3",
             "description": "Main plugin, mandatory to work",
             "can_be_removed": false,
             "download": [

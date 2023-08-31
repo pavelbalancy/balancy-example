@@ -7,10 +7,12 @@ namespace Balancy.Data
 
 	public class GeneralInfo : BaseData
 	{
+
 		[JsonProperty]
 		private int gems;
 		[JsonProperty]
 		private int gold;
+
 
 		[JsonIgnore]
 		public int Gems

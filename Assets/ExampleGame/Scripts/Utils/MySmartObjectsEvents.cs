@@ -22,22 +22,6 @@ namespace Balancy
             Balancy.LiveOps.Profile.SolveConflict(ConflictsManager.VersionType.Cloud);
         }
 
-        public void OnSmartObjectConflictAppeared(ParentBaseData parentBaseData)
-        {
-            Debug.Log("=> OnSmartObjectConflictAppeared: " + parentBaseData);
-            //TODO Show window with conflict between 'parentBaseData' (ConflictsManager.VersionType.Local) and 'parentBaseData.ConflictsManager.ConflictData' (ConflictsManager.VersionType.Cloud)
-            // parentBaseData.ConflictsManager.SolveConflict(ConflictsManager.VersionType.Local);
-            parentBaseData.ConflictsManager.SolveConflict(ConflictsManager.VersionType.Cloud);
-        }
-        
-        public void OnSmartObjectNewVersionAppeared(ParentBaseData parentBaseData)
-        {
-            Debug.Log("=> OnSmartObjectNewVersionAppeared: " + parentBaseData);
-            //TODO Show window with conflict between 'parentBaseData' (ConflictsManager.VersionType.Local) and 'parentBaseData.ConflictsManager.ConflictData' (ConflictsManager.VersionType.Cloud)
-            // parentBaseData.ConflictsManager.SolveConflict(ConflictsManager.VersionType.Local);
-            parentBaseData.ConflictsManager.SolveConflict(ConflictsManager.VersionType.Cloud);
-        }
-
         public void OnNewOfferActivated(OfferInfo offerInfo)
         {
             Debug.Log("=> OnNewOfferActivated: " + offerInfo?.GameOffer?.Name + " ; Price = " + offerInfo?.PriceUSD + " ; Discount = " + offerInfo?.Discount);

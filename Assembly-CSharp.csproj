@@ -43,14 +43,16 @@
   <ItemGroup>
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIWindowBase.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/Utils/AudioManager.cs" />
-     <Compile Include="Assets/ExampleGame/Scripts/SO/QualityRibbonConfig.cs" />
+     <Compile Include="Assets/ExampleGame/Scripts/SO/QualityRibbonConfigExample.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/UILoader.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIWindowShop.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIItemStatus.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/Utils/Launcher.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIStoreTabButton.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/GUIManager.cs" />
+     <Compile Include="Assets/ExampleGame/Scripts/UI/UIOfferGroupIconView.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIShopItem.cs" />
+     <Compile Include="Assets/ExampleGame/Scripts/UI/UIItemBase.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/Utils/MyStoreEvents.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/Utils/TimeFormatter.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/Utils/CloseCurrentWindow.cs" />
@@ -64,9 +66,12 @@
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIWindowHUD.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/UIOfferIconView.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/Utils/GlobalEvents.cs" />
+     <Compile Include="Assets/ExampleGame/Scripts/UI/UIStoreItem.cs" />
      <Compile Include="Assets/ExampleGame/UI/UIParticle/UIParticleSystem.cs" />
+     <Compile Include="Assets/ExampleGame/Scripts/UI/UIWindowOfferGroup.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/Utils/ModelExtensions.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/SO/PurchaseTypeConfig.cs" />
+     <Compile Include="Assets/ExampleGame/Scripts/UI/UIBuyButton.cs" />
      <Compile Include="Assets/ExampleGame/Scripts/UI/MyButton.cs" />
      <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
      <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
@@ -336,7 +341,7 @@
      <HintPath>/Applications/Unity/Hub/Editor/2021.3.11f1/Unity.app/Contents/Managed/UnityEngine/UnityEditor.UnityConnectModule.dll</HintPath>
      </Reference>
      <Reference Include="Newtonsoft.Json">
-     <HintPath>/Volumes/PavelData/Projects/balancy-example/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/Newtonsoft.Json.dll</HintPath>
+     <HintPath>/Volumes/PavelData/Projects/balancy-example/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.2.1/Runtime/Newtonsoft.Json.dll</HintPath>
      </Reference>
      <Reference Include="BalancyLib">
      <HintPath>/Volumes/PavelData/Projects/balancy-example/Assets/Balancy/Plugins/BalancyLib.dll</HintPath>
@@ -775,6 +780,10 @@
      </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Addressables.Balancy.Editor.csproj">
+      <Project>{89c0424d-f7c3-65f4-2ae2-6def04f0bba3}</Project>
+      <Name>Addressables.Balancy.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Balancy.csproj">
       <Project>{0555a003-7011-9174-a525-77da22dac1ba}</Project>
       <Name>Balancy</Name>
@@ -786,10 +795,6 @@
     <ProjectReference Include="Balancy.Editor.csproj">
       <Project>{ee2aebd4-0fdb-51d8-c124-7095bf76c161}</Project>
       <Name>Balancy.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Addressables.Balancy.Editor.csproj">
-      <Project>{89c0424d-f7c3-65f4-2ae2-6def04f0bba3}</Project>
-      <Name>Addressables.Balancy.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Addressables.Balancy.csproj">
       <Project>{6ce058e6-bf17-df37-a1c7-fcff7c2f1306}</Project>

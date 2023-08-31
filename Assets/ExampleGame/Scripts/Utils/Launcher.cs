@@ -37,7 +37,7 @@ public class Launcher : MonoBehaviour
             _isBalancyFullyInitialized = true;
 
             var tests = Balancy.LiveOps.ABTests.GetAllTests();
-            Debug.Log("Tests Count = " + tests.Count);
+            Debug.Log("Tests Count = " + tests.Count + ", session = " + Balancy.LiveOps.Profile.GeneralInfo.Session);
             foreach (var test in tests)
             {
                 Debug.LogWarning(">> " + test.AbTest.Name + " > " + test.Variant.Name);
@@ -80,7 +80,7 @@ public class Launcher : MonoBehaviour
             if (!_loadingProfile)
             {
                 _loadingProfile = true;
-                SmartStorage.LoadSmartObject<DefaultProfile>(null, responseData =>
+                SmartStorage.LoadSmartObject<DefaultProfile>(responseData =>
                 {
                     _loadingProfile = false;
                     _loadedProfile = responseData.Data;

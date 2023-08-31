@@ -18,7 +18,7 @@ public class UIStoreSlotType : MonoBehaviour
     private Image glowImage;
     
     [SerializeField]
-    private QualityRibbonConfig config;
+    private QualityRibbonConfigExample config;
 
     public void SetType(SlotType type)
     {

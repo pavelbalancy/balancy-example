@@ -74,7 +74,7 @@ namespace Balancy.Editor
 
         private void RenderLoader()
         {
-            GUI.enabled = !_downloading && AuthHelper.HasSelectedGame();
+            GUI.enabled = !_downloading && AuthHelper.HasSelectedGame() && !EditorApplication.isCompiling;
             GUILayout.BeginVertical(EditorStyles.helpBox);
 
             GUILayout.Label("Data Editor");
@@ -104,6 +104,10 @@ namespace Balancy.Editor
                 EditorGUILayout.Space();
                 EditorGUILayout.Space();
                 RenderVersionLoader();
+                
+                EditorGUILayout.Space();
+                EditorGUILayout.Space();
+                RenderSmartObjects();
             }
 
             GUILayout.EndVertical();
@@ -120,6 +124,15 @@ namespace Balancy.Editor
             if (GUILayout.Button("Download Data"))
                 StartDownloading(_versionNumber);
             GUILayout.EndHorizontal();
+        }
+        
+        private void RenderSmartObjects()
+        {
+            GUILayout.Label("Clear the latest user profile completely");
+            if (GUILayout.Button("Reset"))
+            {
+                ResetAll();
+            }
         }
 
         private void StartCodeGeneration()
@@ -195,6 +208,13 @@ namespace Balancy.Editor
                 _downloadingFileName = fileName;
                 _downloadingProgress = progress;
             }, versionNumber);
+        }
+        
+        private void ResetAll()
+        {
+            var gameInfo = _authHelper.GetSelectedGameInfo();
+            DataEditor.ResetAllProfiles(gameInfo.GameId, (Constants.Environment) _selectedServer);
+            EditorUtility.DisplayDialog("Success", "The profile was erased.", "Thanks");
         }
     }
 }
