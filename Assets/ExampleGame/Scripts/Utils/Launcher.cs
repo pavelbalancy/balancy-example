@@ -56,9 +56,7 @@ public class Launcher : MonoBehaviour
                 if (!response.Success)
                     Controller.PrintAllErrors();
                 
-                Debug.Log("USER " + Auth.GetUserId());
-                
-                Auth.AsGuest(null);
+                Debug.Log("USER " + LiveOps.Profile.GeneralInfo.ProfileId);
             }
         });
     }

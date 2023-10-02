@@ -70,6 +70,7 @@ namespace Balancy.Editor
             public Constants.Environment Environment;
             public Action<string, float> OnProgress;
             public Action<string> OnComplete;
+            public Action OnStart;
         }
 
         static AddressablesHelper()
@@ -77,39 +78,62 @@ namespace Balancy.Editor
             Balancy_Editor.SynchAddressablesEvent += SynchAddressables;
         }
 
-        public static void SynchAddressables(string gameId, string token, Constants.Environment environment, Action<string, float> onProgress, Action<string> onComplete)
+        internal static void SynchAddressables()
         {
-            var settings = AddressableAssetSettingsDefaultObject.Settings;
-            if (settings == null)
+            ProcessData();
+        }
+
+        private static AddressableAssetSettings _settings;
+        private static GameInfo _gameInfo;
+
+        private static void SynchAddressables(string gameId, string token, Constants.Environment environment, Action<string, float> onProgress, Action onStart, Action<string> onComplete)
+        {
+            _settings = AddressableAssetSettingsDefaultObject.Settings;
+            if (_settings == null)
             {
                 Debug.LogError("No Addressables Found in the project");
                 onComplete?.Invoke(null);
                 return;
             }
 
-            var gameInfo = new GameInfo
+            if (_settings.groups == null)
+            {
+                Debug.LogError("Addressables groups is null");
+                onComplete?.Invoke(null);
+                return;
+            }
+
+            _gameInfo = new GameInfo
             {
                 GameId = gameId,
                 Token = token,
                 Environment = environment,
                 OnProgress = onProgress,
-                OnComplete = onComplete
+                OnComplete = onComplete,
+                OnStart =  onStart
             };
 
-            var info = ReadData(settings);
+            Addressables_Editor.ShowWindow(_settings, gameId);
+        }
+
+        private static void ProcessData()
+        {
+            _gameInfo.OnStart();
+            var info = ReadData(_settings);
             CalculateHashes(info);
-            SendInfoToServer(info, gameInfo);
+            SendInfoToServer(info, _gameInfo);
         }
 
         private static FullInfo ReadData(AddressableAssetSettings settings)
         {
-            var groupsCount = GetGroupsCount(settings);
+            var selectedGroups = Addressables_Editor.GetSelectedGroups(_gameInfo.GameId);
+            var groupsCount = GetGroupsCount(settings, selectedGroups);
             var info = new FullInfo {groups = new AddressablesGroup[groupsCount]};
 
             int i = 0;
             foreach (var group in settings.groups)
             {
-                if (group.ReadOnly)
+                if (group.ReadOnly || !selectedGroups.Contains(group.Guid))
                     continue;
 
                 var entries = group.entries;
@@ -138,9 +162,9 @@ namespace Balancy.Editor
             return info;
         }
 
-        private static int GetGroupsCount(AddressableAssetSettings settings)
+        private static int GetGroupsCount(AddressableAssetSettings settings, List<string> selectedGroups)
         {
-            return settings.groups.Count(group => !group.ReadOnly);
+            return settings.groups.Count(group => group != null && !group.ReadOnly && selectedGroups.Contains(group.Guid));
         }
 
         private static void CalculateHashes(FullInfo info)
@@ -178,12 +202,10 @@ namespace Balancy.Editor
         private static void SendInfoToServer(FullInfo info, GameInfo gameInfo)
         {
             var helper = EditorCoroutineHelper.Create();
-            var req = new EditorUtils.ServerRequest("/v1.1/check_assets");
+            var req = new EditorUtils.ServerRequest($"/v1.2/check_assets/{gameInfo.GameId}/{(int)gameInfo.Environment}");
             req.SetHeader("Content-Type", "application/json")
                 .SetHeader("Authorization", "Bearer " + gameInfo.Token)
-                .SetHeader("game-id", gameInfo.GameId)
-                .AddBody("groups", info.groups)
-                .AddBody("env", (int) gameInfo.Environment);
+                .AddBody("groups", info.groups);
             
             var cor = UnityUtils.SendRequest(req, request =>
             {
@@ -289,8 +311,8 @@ namespace Balancy.Editor
                 var scaleY = (float) maxSize.y / texture.height;
                 var scale = Mathf.Min(scaleX, scaleY);
 
-                int newWidth = Mathf.RoundToInt(scale * texture.width);
-                int newHeight = Mathf.RoundToInt(scale * texture.height);
+                int newWidth = Mathf.Max(Mathf.RoundToInt(scale * texture.width), 1);
+                int newHeight = Mathf.Max(Mathf.RoundToInt(scale * texture.height), 1);
 
                 newTexture = ScaleTexture(texture, newWidth, newHeight);
             }
@@ -345,6 +367,128 @@ namespace Balancy.Editor
         private static string ConvertToJson(FullInfo info)
         {
             return JsonConvert.SerializeObject(info);
+        }
+    }
+
+    [ExecuteInEditMode]
+    public class Addressables_Editor : EditorWindow
+    {
+        private class GroupSetting
+        {
+            public string Guid;
+            public bool Selected;
+        }
+
+        private static string _gameId;
+        private static AddressableAssetSettings _settings;
+        private static List<GroupSetting> _groups;
+        
+        private Vector2 _scrollPos;
+
+        internal static List<string> GetSelectedGroups(string gameId)
+        {
+            var groups = new List<string>();
+            
+            var set = PlayerPrefs.GetString("Balancy_addressables_settings_" + gameId);
+            if (!string.IsNullOrEmpty(set))
+            {
+                var gs = set.Split(',');
+                foreach (var group in gs)
+                {
+                    groups.Add(group);
+                }
+            }
+
+            return groups;
+        }
+
+        internal static void ShowWindow(AddressableAssetSettings settings, string gameId)
+        {
+            _gameId = gameId;
+            _settings = settings;
+            var window = GetWindow(typeof(Addressables_Editor));
+            window.titleContent.text = "Addressables Config";
+
+            _groups = new List<GroupSetting>();
+
+            var groups = GetSelectedGroups(gameId);
+            foreach (var group in groups)
+            {
+                _groups.Add(new GroupSetting { Guid = group, Selected = true });
+            }
+
+            window.Show();
+        }
+
+        private void Save()
+        {
+            PlayerPrefs.SetString("Balancy_addressables_settings_" + _gameId, String.Join(",", _groups.FindAll(g => g.Selected).Select(g => g.Guid)));
+            PlayerPrefs.Save();
+        }
+
+        private void OnGUI()
+        {
+            if (_settings == null || _settings.groups == null)
+            {
+                Close();
+                return;
+            }
+
+            var select = _groups.Count == 0 || _groups.Any(g => !g.Selected);
+            if (GUILayout.Button(select ? "Select all" : "Unselect all"))
+            {
+                foreach (var group in _settings.groups)
+                {
+                    if (group.ReadOnly)
+                        continue;
+
+                    var curGroup = _groups.Find(g => g.Guid == group.Guid);
+
+                    if (curGroup == null)
+                    {
+                        curGroup = new GroupSetting { Guid = group.Guid, Selected = select };
+                        _groups.Add(curGroup);
+                    }
+                    else
+                    {
+                        curGroup.Selected = select;
+                    }
+
+                    Save();
+                }
+            }
+
+            _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos, GUILayout.MaxHeight(300));
+
+            foreach (var group in _settings.groups)
+            {
+                if (group.ReadOnly)
+                    continue;
+                var setGroup = _groups.Find(g => g.Guid == group.Guid);
+                if (setGroup == null)
+                {
+                    setGroup = new GroupSetting { Guid = group.Guid, Selected = false };
+                    _groups.Add(setGroup);
+                }
+
+                var newValue = EditorGUILayout.Toggle(group.Name, setGroup.Selected);
+                if (setGroup.Selected != newValue)
+                {
+                    setGroup.Selected = newValue;
+                    Save();
+                }
+
+                setGroup.Selected = newValue;
+            }
+
+            EditorGUILayout.EndScrollView();
+
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+
+
+            if (GUILayout.Button("Synch Addressables"))
+                AddressablesHelper.SynchAddressables();
         }
     }
 }

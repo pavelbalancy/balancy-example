@@ -8,7 +8,7 @@ namespace Balancy.Editor
     [ExecuteInEditMode]
     public class Balancy_Editor : EditorWindow
     {
-        public delegate void SynchAddressablesDelegate(string gameId, string token, Constants.Environment environment, Action<string, float> onProgress, Action<string> onComplete);
+        public delegate void SynchAddressablesDelegate(string gameId, string token, Constants.Environment environment, Action<string, float> onProgress, Action onStart, Action<string> onComplete);
         public static event SynchAddressablesDelegate SynchAddressablesEvent;
 
         [MenuItem("Tools/Balancy/Config", false, -104002)]
@@ -140,6 +140,7 @@ namespace Balancy.Editor
             _downloading = true;
             _downloadingProgress = 0.5f;
             _downloadingFileName = "Generating the code...";
+
             var gameInfo = _authHelper.GetSelectedGameInfo();
             var token = _authHelper.GetAccessToken();
             Balancy_CodeGeneration.StartGeneration(
@@ -159,9 +160,6 @@ namespace Balancy.Editor
             }
             else
             {
-                _downloading = true;
-                _downloadingProgress = 0f;
-                _downloadingFileName = "Synchronizing addressables...";
                 var gameInfo = _authHelper.GetSelectedGameInfo();
                 var token = _authHelper.GetAccessToken();
                 SynchAddressablesEvent(
@@ -172,6 +170,12 @@ namespace Balancy.Editor
                     {
                         _downloadingFileName = fileName;
                         _downloadingProgress = progress;
+                    },
+                    () =>
+                    {
+                        _downloading = true;
+                        _downloadingProgress = 0f;
+                        _downloadingFileName = "Synchronizing addressables...";  
                     },
                     (error) =>
                     {
