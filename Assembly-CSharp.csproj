@@ -780,6 +780,10 @@
      </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Addressables.Balancy.Editor.csproj">
+      <Project>{89c0424d-f7c3-65f4-2ae2-6def04f0bba3}</Project>
+      <Name>Addressables.Balancy.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="Balancy.csproj">
       <Project>{0555a003-7011-9174-a525-77da22dac1ba}</Project>
       <Name>Balancy</Name>
@@ -791,10 +795,6 @@
     <ProjectReference Include="Balancy.Editor.csproj">
       <Project>{ee2aebd4-0fdb-51d8-c124-7095bf76c161}</Project>
       <Name>Balancy.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Addressables.Balancy.Editor.csproj">
-      <Project>{89c0424d-f7c3-65f4-2ae2-6def04f0bba3}</Project>
-      <Name>Addressables.Balancy.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Addressables.Balancy.csproj">
       <Project>{6ce058e6-bf17-df37-a1c7-fcff7c2f1306}</Project>
