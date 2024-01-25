@@ -23,9 +23,7 @@ namespace Balancy.Data
 
 		public static DefaultProfile Instantiate()
 		{
-			DefaultProfile result = new DefaultProfile();
-			result.Init();
-			return result;
+			return Instantiate<DefaultProfile>();
 		}
 
 		protected override void AddAllParamsToCache(string path, IInternalStorageCache cache)

@@ -55,13 +55,13 @@ namespace Balancy
 
 		public static class Game
 		{
-			public static List<Models.Game.GameItem> GameItems { get; private set; }
 			public static Models.Game.GameConfig GameConfig { get; private set; }
+			public static List<Models.Game.GameItem> GameItems { get; private set; }
 
 			public static void Init()
 			{
-				GameItems = DataManager.ParseList<Models.Game.GameItem>();
 				GameConfig = DataManager.ParseSingleton<Models.Game.GameConfig>();
+				GameItems = DataManager.ParseList<Models.Game.GameItem>();
 			}
 		}
 

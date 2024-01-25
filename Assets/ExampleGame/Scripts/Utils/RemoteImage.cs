@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class RemoteImage : Image
 {
-    public void LoadFromUrl(string url)
+    public void LoadFromUrl(string url, Vector4 border, int pixelsPerUnit)
     {
         var cachedColor = MakeImageTransparent();
-        Balancy.ObjectsLoader.GetSprite(url, loadedSprite =>
+        Balancy.ObjectsLoader.GetSprite(url, border, pixelsPerUnit, loadedSprite =>
         {
             if (!IsDestroyed())
             {

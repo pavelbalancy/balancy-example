@@ -61,40 +61,42 @@ public class UIWindowOfferGroup : UIWindowBase
 
     private void OnTryToPurchase(UIStoreItem uiStoreItem, StoreItem storeItem)
     {
-        if (storeItem.IsFree())
+        if (storeItem.IsFree() || storeItem.Price.Type == PriceType.Soft || (storeItem.IsAdsWatching() && storeItem.IsEnoughResources()))
         {
-            LiveOps.GameOffers.OfferWasPurchased(_offerInfo, storeItem, null);
-            RefreshContent();
+            Balancy.LiveOps.GameOffers.PurchaseOffer(_offerInfo, storeItem,
+                response =>
+                {
+                    Debug.Log("Purchase " + response.Success + " ? " + response.Error?.Message);
+                    RefreshContent();
+                });
         }
         else
         {
             switch (storeItem.Price.Type)
             {
                 case PriceType.Hard:
-                    LiveOps.GameOffers.OfferWasPurchased(_offerInfo, storeItem, new PaymentInfo
+                    //TODO You can manage the in-app purchases by yourself, only informing Balancy about the results  
+                    Balancy.LiveOps.GameOffers.OfferWasPurchased(_offerInfo, storeItem, new PaymentInfo
                     {
                         Currency = "USD",
                         Price = storeItem.Price.Product.Price,
                         ProductId = storeItem.Price.Product.ProductId,
+                        OrderId = "<TransactionId>",
+                        Receipt = "<Receipt>"
                     }, response =>
                     {
-                        Debug.LogWarning("Offer Purchase " + response.Success);
+                        Debug.Log("Purchase " + response.Success + " ? " + response.Error?.Message);
                         RefreshContent();
                     });
-                    break;
-                case PriceType.Soft:
-                    LiveOps.GameOffers.OfferWasPurchased(_offerInfo, storeItem, storeItem.Price);
-                    RefreshContent();
                     break;
                 case PriceType.Ads:
-                    LiveOps.GameOffers.PurchaseOffer(_offerInfo, storeItem, response =>
+                    if (!storeItem.IsEnoughResources())
                     {
-                        Debug.LogWarning("Offer Purchase for Ads " + response.Success);
+                        //TODO Show Ads here
+                        LiveOps.Store.AdWasWatchedForStoreItem(storeItem);
                         RefreshContent();
-                    });
+                    }
                     break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
     }

@@ -109,26 +109,43 @@ public class UIWindowShop : UIWindowBase
             return;
 
         var storeItem = storeSlot.GetStoreItem();
-        if (storeItem.IsFree())
+        if (storeItem.IsFree() || storeItem.Price.Type == PriceType.Soft || (storeItem.IsAdsWatching() && storeItem.IsEnoughResources()))
         {
-            Balancy.LiveOps.Store.ItemWasPurchased(storeItem);
+            Balancy.LiveOps.Store.PurchaseStoreItem(storeItem,
+                response =>
+                {
+                    Debug.Log("Purchase " + response.Success + " ? " + response.Error?.Message);
+                    //legacy
+                    storeItem.TryToPurchase(_profile);
+                });
         }
         else
         {
-            if (storeItem.TryToPurchase(_profile))
+            switch (storeItem.Price.Type)
             {
-                if (storeItem.IsInApp())
+                case PriceType.Hard:
+                    //TODO You can manage the in-app purchases by yourself, only informing Balancy about the results  
                     Balancy.LiveOps.Store.ItemWasPurchased(storeItem, new PaymentInfo
                     {
                         Currency = "USD",
                         Price = storeItem.Price.Product.Price,
                         ProductId = storeItem.Price.Product.ProductId,
+                        OrderId = "<TransactionId>",
+                        Receipt = "<Receipt>"
+                    }, response =>
+                    {
+                        Debug.Log("Purchase " + response.Success + " ? " + response.Error?.Message);
+                        //legacy
+                        storeItem.TryToPurchase(_profile);
                     });
-                else
-                {
-                    Balancy.LiveOps.Store.ItemWasPurchased(storeItem, storeItem.Price);
-                }
-                //TODO play some animation
+                    break;
+                case PriceType.Ads:
+                    if (!storeItem.IsEnoughResources())
+                    {
+                        //TODO Show Ads here
+                        Balancy.LiveOps.Store.AdWasWatchedForStoreItem(storeItem);
+                    }
+                    break;
             }
         }
     }
